@@ -1,4 +1,4 @@
-extends Position2D
+	extends Position2D
 
 # Declare member variables here. Examples:
 # var a = 2

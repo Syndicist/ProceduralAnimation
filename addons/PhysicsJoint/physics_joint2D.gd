@@ -1,25 +1,33 @@
 extends Position2D
 
-var start_offset = 0;
-var min_angle = -100;
-var max_angle = 100;
-var length = 0;
+#var min_angle = -100;
+#var max_angle = 100;
+export(float) var length = 0;
+var joints = [];
+var sprites = [];
 
 func _ready():
-	add_to_group("joints");
-	start_offset = position;
-	print(start_offset);
-	length = position.x;
+	get_joints_and_sprites();
+
+func get_joints_and_sprites():
+	if(get_child_count() == 0):
+		return;
+	for n in get_children():
+		if "length" in n:
+			joints.append(n);
+		if "texture" in n:
+			sprites.append(n);
+	return;
 
 func _physics_process(delta):
-	#print(rotation);
-	pass;
+	if(joints.size()>0):
+		for i in joints.size():
+			sprites[i].look_at(joints[i].global_position);
 
-func has_joint_child():
-	for c in get_children():
-		if start_offset in c:
-			return true
-	return false;
+"""
+var start_offset = 0;
+func _ready():
+	start_offset = position;
 
 func get_limb(var node):
 	if "joints" in node:
@@ -28,4 +36,4 @@ func get_limb(var node):
 		return get_limb(node.get_parent());
 
 func get_relative_position_to_limb():
-	return get_relative_transform_to_parent(get_limb(get_parent())).get_origin()
+	return get_relative_transform_to_parent(get_limb(get_parent())).get_origin()"""
