@@ -19,10 +19,12 @@ func get_joints_and_sprites():
 			sprites.append(n);
 	return;
 
+func _draw():
+	for j in joints:
+		draw_line(Vector2(0,0), j.position, Color(1,0,0));
+
 func _physics_process(delta):
-	if(joints.size()>0):
-		for i in joints.size():
-			sprites[i].look_at(joints[i].global_position);
+	update();
 
 """
 var start_offset = 0;
