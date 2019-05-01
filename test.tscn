@@ -81,14 +81,14 @@ __meta__ = {
 scale = Vector2( 1, 25 )
 texture = SubResource( 2 )
 
-[node name="Area2D" type="Area2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D"]
+[node name="Target2D" type="Area2D" parent="PhysicsLimb2D"]
+position = Vector2( 417, 121 )
 script = ExtResource( 5 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsLimb2D/Target2D"]
 shape = SubResource( 3 )
 
 [node name="Timer" type="Timer" parent="."]
-
-[connection signal="mouse_entered" from="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" to="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" method="_on_Area2D_mouse_entered"]
-[connection signal="mouse_exited" from="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" to="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" method="_on_Area2D_mouse_exited"]
+[connection signal="mouse_entered" from="PhysicsLimb2D/Target2D" to="PhysicsLimb2D/Target2D" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="PhysicsLimb2D/Target2D" to="PhysicsLimb2D/Target2D" method="_on_Area2D_mouse_exited"]
 [connection signal="timeout" from="Timer" to="PhysicsLimb2D" method="_on_Timer_timeout"]

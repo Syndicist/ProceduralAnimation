@@ -25,7 +25,7 @@ func get_joints(var n):
 	return;
 
 func _physics_process(delta):
-	fabrik(get_global_mouse_position());
+	fabrik($Target2D.global_position);
 	#InverseKinematics(get_local_mouse_global_position());
 	pass;
 
