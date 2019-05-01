@@ -29,6 +29,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 4 )
 }
 length = 100.0
+type = null
 
 [node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D" groups=[
 "joints",
@@ -39,6 +40,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 4 )
 }
 length = 100.0
+type = null
 
 [node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
 "joints",
@@ -49,6 +51,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 4 )
 }
 length = 100.0
+type = null
 
 [node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
 "joints",
@@ -59,6 +62,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 4 )
 }
 length = 100.0
+type = null
 
 [node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
 "joints",
@@ -69,6 +73,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 4 )
 }
 length = 100.0
+type = null
 
 [node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D"]
 position = Vector2( 100, 100 )
@@ -76,6 +81,8 @@ script = ExtResource( 3 )
 __meta__ = {
 "_editor_icon": ExtResource( 4 )
 }
+length = null
+type = null
 
 [node name="Sprite" type="Sprite" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D"]
 scale = Vector2( 1, 25 )

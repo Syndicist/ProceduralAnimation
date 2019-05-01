@@ -1,6 +1,5 @@
 extends Node2D
 
-export(NodePath) var Root;
 var joints = [];
 var bones;
 var max_length = 0;
