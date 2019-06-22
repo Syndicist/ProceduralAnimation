@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://addons/PhysicsJoint/physics_limb2D.gd" type="Script" id=1]
-[ext_resource path="res://addons/PhysicsJoint/limb_icon.png" type="Texture" id=2]
-[ext_resource path="res://addons/PhysicsJoint/physics_joint2D.gd" type="Script" id=3]
-[ext_resource path="res://addons/PhysicsJoint/joint_icon.png" type="Texture" id=4]
-[ext_resource path="res://Area2D.gd" type="Script" id=5]
+[ext_resource path="res://Area2D.gd" type="Script" id=1]
+[ext_resource path="res://addons/PhysicsJoint/physics_joint2D.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=3]
 
 [sub_resource type="Gradient" id=1]
 
@@ -12,90 +11,97 @@
 gradient = SubResource( 1 )
 width = 25
 
-[sub_resource type="RectangleShape2D" id=3]
-
 [node name="Node2D" type="Node2D"]
 
-[node name="PhysicsLimb2D" type="Node2D" parent="."]
+[node name="Target3" type="Area2D" parent="."]
 position = Vector2( 500, 300 )
 script = ExtResource( 1 )
-__meta__ = {
-"_editor_icon": ExtResource( 2 )
-}
 
-[node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D"]
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_icon": ExtResource( 4 )
-}
-length = 100.0
-type = null
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target3"]
+shape = SubResource( 3 )
 
-[node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D" groups=[
+[node name="PhysicsLimb2D" type="Skeleton2D" parent="Target3"]
+
+[node name="PhysicsJoint2D" type="Bone2D" parent="Target3/PhysicsLimb2D"]
+rest = Transform2D( 1, 0, 0, 1, 0, 0 )
+script = ExtResource( 2 )
+color = Color( 1, 0, 0, 1 )
+type = 3
+lengths = [ 100, 50 ]
+
+[node name="PhysicsJoint2D" type="Bone2D" parent="Target3/PhysicsLimb2D/PhysicsJoint2D" groups=[
 "joints",
 ]]
 position = Vector2( 95, 70 )
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_icon": ExtResource( 4 )
-}
-length = 100.0
-type = null
+rest = Transform2D( 1, 0, 0, 1, 95, 70 )
+script = ExtResource( 2 )
+color = Color( 1, 0, 0, 1 )
 
-[node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
+[node name="PhysicsJoint2D" type="Bone2D" parent="Target3/PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
 "joints",
 ]]
 position = Vector2( 36, -93 )
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_icon": ExtResource( 4 )
-}
-length = 100.0
-type = null
+rest = Transform2D( 1, 0, 0, 1, 36, -93 )
+script = ExtResource( 2 )
 
-[node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
+[node name="PhysicsJoint2D" type="Bone2D" parent="Target3/PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
 "joints",
 ]]
 position = Vector2( 61, 75 )
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_icon": ExtResource( 4 )
-}
-length = 100.0
-type = null
+rest = Transform2D( 1, 0, 0, 1, 61, 75 )
+script = ExtResource( 2 )
+type = 1
+lengths = [ 100 ]
 
-[node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
+[node name="PhysicsJoint2D" type="Bone2D" parent="Target3/PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D" groups=[
 "joints",
 ]]
 position = Vector2( 125, -31 )
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_icon": ExtResource( 4 )
-}
-length = 100.0
-type = null
+rest = Transform2D( 1, 0, 0, 1, 125, -31 )
+script = ExtResource( 2 )
 
-[node name="PhysicsJoint2D" type="Position2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D"]
+[node name="end1" type="Bone2D" parent="Target3/PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D"]
 position = Vector2( 100, 100 )
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_icon": ExtResource( 4 )
-}
-length = null
-type = null
+rest = Transform2D( 1, 0, 0, 1, 100, 100 )
+script = ExtResource( 2 )
+length = 0
+type = 2
+targetPath = NodePath("../../../../../../Target1")
 
-[node name="Sprite" type="Sprite" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D"]
+[node name="Sprite" type="Sprite" parent="Target3/PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/end1"]
 scale = Vector2( 1, 25 )
 texture = SubResource( 2 )
 
-[node name="Area2D" type="Area2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D"]
-script = ExtResource( 5 )
+[node name="end2" type="Bone2D" parent="Target3/PhysicsLimb2D/PhysicsJoint2D"]
+position = Vector2( -95.3952, 93.765 )
+rest = Transform2D( 1, 0, 0, 1, 100, 100 )
+script = ExtResource( 2 )
+length = 0
+type = 2
+targetPath = NodePath("../../Target2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D"]
+[node name="Sprite" type="Sprite" parent="Target3/PhysicsLimb2D/PhysicsJoint2D/end2"]
+scale = Vector2( 1, 25 )
+texture = SubResource( 2 )
+
+[node name="Target1" type="Area2D" parent="Target3/PhysicsLimb2D"]
+position = Vector2( 417, 121 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target3/PhysicsLimb2D/Target1"]
+shape = SubResource( 3 )
+
+[node name="Target2" type="Area2D" parent="Target3/PhysicsLimb2D"]
+position = Vector2( -110.432, 30.9149 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target3/PhysicsLimb2D/Target2"]
 shape = SubResource( 3 )
 
 [node name="Timer" type="Timer" parent="."]
-
-[connection signal="mouse_entered" from="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" to="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" method="_on_Area2D_mouse_entered"]
-[connection signal="mouse_exited" from="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" to="PhysicsLimb2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/PhysicsJoint2D/Area2D" method="_on_Area2D_mouse_exited"]
-[connection signal="timeout" from="Timer" to="PhysicsLimb2D" method="_on_Timer_timeout"]
+[connection signal="mouse_entered" from="Target3" to="Target3" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="Target3" to="Target3" method="_on_Area2D_mouse_exited"]
+[connection signal="mouse_entered" from="Target3/PhysicsLimb2D/Target1" to="Target3/PhysicsLimb2D/Target1" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="Target3/PhysicsLimb2D/Target1" to="Target3/PhysicsLimb2D/Target1" method="_on_Area2D_mouse_exited"]
+[connection signal="mouse_entered" from="Target3/PhysicsLimb2D/Target2" to="Target3/PhysicsLimb2D/Target2" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="Target3/PhysicsLimb2D/Target2" to="Target3/PhysicsLimb2D/Target2" method="_on_Area2D_mouse_exited"]

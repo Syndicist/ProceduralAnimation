@@ -1,30 +1,55 @@
-extends Node2D
+extends Skeleton2D
 
+export(NodePath) var RootPath;
+export(Array, int) var lengths;
+var Root;
 var joints = [];
-var bones;
-var max_length = 0;
+var ends = [];
+var max_lengths = [];
+var arm_idx = 0;
 var distance_threshold = 1;
+enum TYPE {JOINT, SUB_BASE, END_EFFECTOR, ROOT};
 #var sampling_distance = .0005;
 #var learning_rate = .0015;
 
-#var end_effector = Vector2();
-
 func _ready():
+	Root = get_node(RootPath);
 	if(get_child_count() != 0):
-		get_joints(self);
+		get_joints(Root);
+	arm_idx = 0;
 
 func get_joints(var n):
-	if(get_child_count() == 0):
-		return;
-	for c in n.get_children():
-		if "length" in c:
-			joints.append(c);
-			max_length += c.length;
-			get_joints(n.get_node(c.get_path()));
+	if("type" in n):
+		for c in n.get_children():
+			if("type" in c):
+				if(arm_idx >= lengths.size()):
+					arm_idx = 0;
+				if(n.type == TYPE.ROOT):
+					max_lengths.append(lengths[arm_idx]);
+					joints.append([]);
+					joints[arm_idx].append(n);
+				joints[arm_idx].append(c);
+				if(c.type == TYPE.SUB_BASE || c.type == TYPE.END_EFFECTOR):
+					ends.append(c);
+				if(c.type != TYPE.SUB_BASE && c.type != TYPE.END_EFFECTOR):
+					get_joints(n.get_node(c.get_path()));
+				if(n.type == TYPE.ROOT):
+					arm_idx += 1;
+		if(n.type == TYPE.JOINT):
+			max_lengths[arm_idx] += n.length;
+		if(get_child_count() == 0):
+			return;
 	return;
 
 func _physics_process(delta):
-	fabrik(get_global_mouse_position());
+	for c in ends:
+		if(arm_idx >= ends.size()):
+			arm_idx = 0;
+		fabrik(c.target.global_position);
+		print(c.target.global_position);
+		arm_idx+=1;
+	
+	#fabrik($Target.global_position);
 	#InverseKinematics(get_local_mouse_global_position());
 	pass;
 
@@ -35,143 +60,51 @@ func _physics_process(delta):
 #output = new global_positions for all the joints in order
 func fabrik(var target):
 	#The distance between root and target
-	var n = joints.size() - 1;
-	var dist = joints[0].global_position.distance_to(target);
+	var n = joints[arm_idx].size() - 1;
+	var dist = joints[arm_idx][0].global_position.distance_to(target);
+	
 	#Check whether the target is within reach
-	if(dist > max_length):
+	if(dist > max_lengths[arm_idx]):
 		#The target is unreachable
 		var r = [];
-		r.resize(joints.size());
+		r.resize(joints[arm_idx].size());
 		var lamb = [];
-		lamb.resize(joints.size());
+		lamb.resize(joints[arm_idx].size());
 		for i in n:
 			#Find the distance ri between the target and the joint global_position pi
-			r[i] = target.distance_to(joints[i].global_position);
-			lamb[i] = joints[i].length/r[i];
+			r[i] = target.distance_to(joints[arm_idx][i].global_position);
+			lamb[i] = joints[arm_idx][i].length/r[i];
 			#Find the new joint global_positions.
-			joints[i+1].global_position = (1 - lamb[i]) * joints[i].global_position + lamb[i] * target;
+			joints[arm_idx][i+1].global_position = (1 - lamb[i]) * joints[arm_idx][i].global_position + lamb[i] * target;
 	else:
 		#The target is reachable; thus, set as b the initial global_position of the joint p1
-		var b = joints[0].global_position;
+		var b = joints[arm_idx][0].global_position;
 		#Check whether the distance between the end effector pn and the target is greater than a distance threshold.
-		var difA = joints[n].global_position.distance_to(target);
+		var difA = joints[arm_idx][n].global_position.distance_to(target);
 		while(difA > distance_threshold):
 			#STAGE 1: FORWARD REACHING
 			#Set the end effector pn as target
-			
-			joints[n].global_position = target;
+			joints[arm_idx][n].global_position = target;
 			var y = n-1;
 			var r = [];
-			r.resize(joints.size());
+			r.resize(joints[arm_idx].size());
 			var lamb = [];
-			lamb.resize(joints.size());
+			lamb.resize(joints[arm_idx].size());
 			for i in n:
 				#Find the distance ri between the new joint global_position pi+1 and the joint pi
-				r[y] = joints[y+1].global_position.distance_to(joints[y].global_position);
-				lamb[y] = joints[y].length/r[y];
+				r[y] = joints[arm_idx][y+1].global_position.distance_to(joints[arm_idx][y].global_position);
+				lamb[y] = joints[arm_idx][y].length/r[y];
 				#Find the new joint global_positions pi.
-				joints[y].global_position = (1 - lamb[y]) * joints[y+1].global_position + lamb[y] * joints[y].global_position;
+				joints[arm_idx][y].global_position = (1 - lamb[y]) * joints[arm_idx][y+1].global_position + lamb[y] * joints[arm_idx][y].global_position;
 				y-=1
 			#STAGE 2: BACKWARD REACHING
 			#Set the root p1 its initial global_position.
-			joints[0].global_position = b;
+			joints[arm_idx][0].global_position = b;
 			
 			for i in n:
 				#Find the distance ri between the new joint global_position pi and the joint pi+1
-				r[i] = joints[i+1].global_position.distance_to(joints[i].global_position);
-				lamb[i] = joints[i].length/r[i];
+				r[i] = joints[arm_idx][i+1].global_position.distance_to(joints[arm_idx][i].global_position);
+				lamb[i] = joints[arm_idx][i].length/r[i];
 				#Find the new joint global_positions pi.
-				joints[i+1].global_position = (1 - lamb[i]) * joints[i].global_position + lamb[i] * joints[i+1].global_position;
-			difA = joints[n].global_position.distance_to(target);
-
-"""
-#returns new calculated global_position to travel to
-func ForwardKinematics():
-	#rotation
-	var prevPoint = joints[0].global_position;
-	var rot = 0;
-	for i in joints.size():
-		if(i == 0):
-			pass;
-		else:
-			#Rotate
-			rot += joints[i-1].rotation;
-			var nextPoint = prevPoint + joints[i].start_offset.rotated(rot);
-			prevPoint = nextPoint;
-	end_effector = prevPoint;
-	return prevPoint;
-
-#returns float gradiant given a target global_position, an array of angles, and the index of the joint currently accessed
-func PartialGradient(var target, var i):
-	#Saves the angle,
-	#it will be restored later
-	var angle = joints[i].rotation;
-	
-	#Gradient : [F(x+SamplingDistance) - F(x)] / h
-	var f_x = DistanceFromTarget(target);
-	
-	joints[i].rotation += sampling_distance;
-	var f_x_plus_d = DistanceFromTarget(target);
-	
-	var gradient = (f_x_plus_d - f_x) / sampling_distance;
-	
-	#Restores
-	joints[i].rotation = angle;
-	
-	return gradient;
-
-#returns a float distance from the target global_position
-func DistanceFromTarget(var target):
-	var point = ForwardKinematics()
-	#print(target.distance_to(point))
-	return target.distance_to(point);
-
-
-func InverseKinematics(var target):
-	if (DistanceFromTarget(target) < distance_threshold):
-	    return;
-	var y = n;
-	for i in joints.size():
-		#Gradient descent
-		#Update : Solution -= LearningRate * Gradient
-		var gradient = PartialGradient(target, y);
-		joints[y].rotation -= learning_rate * gradient;
-		#Clamp
-		#joint.rotation = clamp(joint.rotation, joint.min_angle, joint.max_angle);
-		
-		#Early termination
-		if (DistanceFromTarget(target) < distance_threshold):
-		    return;
-		y -= 1;
-"""
-
-"""
-func InverseKinematics(var target):
-	var distance_from_target = target.distance_to(joints[0].global_position);
-	
-	#Angle from Joint0 and Target
-	var diff = target.global_position - joints[0].global_position;
-	var angle_from_target = Mathf.atan2(diff.y, diff.x);
-	
-	#Is the target reachable?
-	#If not, we stretch as far as possible
-	if (max_length < distance_from_target):
-		joints[0].rotation = angle_from_target;
-		for i in joints.size():
-			if(i == 0):
-				pass;
-			else:
-				joints[i].rotation = 0;
-	else:
-		for i in joints.size():
-			if(joints[i].has_joint_child()
-			float cosAngle0 = ((length2 * length2) + (length0 * length0) - (length1 * length1)) / (2 * length2 * length0);
-			float angle0 = Mathf.Acos(cosAngle0) * Mathf.Rad2Deg;
-			
-			float cosAngle1 = ((length1 * length1) + (length0 * length0) - (length2 * length2)) / (2 * length1 * length0);
-			float angle1 = Mathf.Acos(cosAngle1) * Mathf.Rad2Deg;
-			
-			#So they work in Unity reference frame
-			jointAngle0 = atan - angle0;
-			jointAngle1 = 180f - angle1;
-"""
+				joints[arm_idx][i+1].global_position = (1 - lamb[i]) * joints[arm_idx][i].global_position + lamb[i] * joints[arm_idx][i+1].global_position;
+			difA = joints[arm_idx][n].global_position.distance_to(target);

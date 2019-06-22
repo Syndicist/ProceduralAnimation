@@ -4,7 +4,7 @@ var mouse = false;
 
 func _physics_process(delta):
 	if(Input.is_action_pressed("click") && mouse):
-		position = get_global_mouse_position();
+		global_position = get_global_mouse_position();
 
 
 func _on_Area2D_mouse_entered():
