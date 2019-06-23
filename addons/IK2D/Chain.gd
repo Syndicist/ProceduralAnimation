@@ -1,11 +1,10 @@
-extends Skeleton2D
+extends Bone2D
 
-export(NodePath) var rootPath;
 export(NodePath) var targetPath;
-var root;
+export(Array,NodePath) var jointPaths;
+export(int) var length = 100;
 var target;
 var tolerance = 0.1;
-var lengths = [];
 var joints = [];
 var nJoints = 0;
 var max_length = 0;
@@ -18,23 +17,24 @@ var up = .89;
 var down = .89;
 
 func _ready():
-	root = get_node(rootPath);
 	target = get_node(targetPath);
-	get_joints(root);
+	get_joints();
 	nJoints = joints.size();
-	origin = joints[0];
+	origin = joints[0].global_position;
 	pass;
 	
-func get_joints(var n):
-	if "length" in n:
-		max_length += n.length;
-		lengths.append(n.length);
-		joints.append(n);
-		if(n.get_child_count() != 0):
-			get_joints(n.get_child(0));
+func get_joints():
+	for n in jointPaths:
+		var j = get_node(n);
+		max_length += j.length;
+		joints.append(j);
+
+func _draw():
+	if(get_child_count() > 0):
+		draw_line(Vector2(0,0), get_child(0).position, Color(1,0,0));
 
 func _process(delta):
-	solve();
+	update();
 
 func solve():
 	var dist =joints[0].global_position.distance_to(target.global_position);
@@ -43,7 +43,7 @@ func solve():
 		#target out of reach
 		for i in nJoints-1:
 			var r = target.global_position.distance_to(joints[i].global_position);
-			var l = lengths[i] / r;
+			var l = joints[i].length / r;
 			
 			joints[i+1].global_position = (1 - l) * joints[i].global_position + l * target.global_position;
 	else:
@@ -65,15 +65,15 @@ func backward():
 	var i = nJoints-2;
 	for y in nJoints-1:
 		var r = joints[i+1].global_position.distance_to(joints[i].global_position);
-		var l = lengths[i] / r;
+		var l = joints[i].length / r;
 		
 		joints[i].global_position = (1 - l) * joints[i+1].global_position + l * joints[i].global_position;
 
 func forward():
-	joints[0].global_position = origin.global_position;
+	joints[0].global_position = origin;
 	for i in nJoints-1:
 		var r = joints[i+1].global_position.distance_to(joints[i].global_position);
-		var l = lengths[i] / r;
+		var l = joints[i].length / r;
 		
 		joints[i+1].global_position = (1 - l) * joints[i].global_position + l * joints[i+1].global_position;
 

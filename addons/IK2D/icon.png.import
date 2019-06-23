@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon.png-f368dc6d9b7173e4a04d70de2cd5b77b.stex"
+path="res://.import/icon.png-0f02de2181804fa7361e138762c1179d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/PhysicsJoint/icon.png"
-dest_files=[ "res://.import/icon.png-f368dc6d9b7173e4a04d70de2cd5b77b.stex" ]
+source_file="res://addons/IK2D/icon.png"
+dest_files=[ "res://.import/icon.png-0f02de2181804fa7361e138762c1179d.stex" ]
 
 [params]
 

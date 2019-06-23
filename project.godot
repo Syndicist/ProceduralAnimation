@@ -19,6 +19,10 @@ config/name="ProceduralAnimation"
 run/main_scene="res://test.tscn"
 config/icon="res://icon.png"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "IK2D" )
+
 [input]
 
 click={

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/joint_icon.png-e47b42c3de54411f3e59768e567d1f04.stex"
+path="res://.import/bone_icon.png-8290feaa2c1cba936850d8976094fb08.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/PhysicsJoint/joint_icon.png"
-dest_files=[ "res://.import/joint_icon.png-e47b42c3de54411f3e59768e567d1f04.stex" ]
+source_file="res://addons/IK2D/bone_icon.png"
+dest_files=[ "res://.import/bone_icon.png-8290feaa2c1cba936850d8976094fb08.stex" ]
 
 [params]
 
