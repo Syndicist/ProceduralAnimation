@@ -19,16 +19,16 @@ var arm_idx = 0;
 var distance_threshold = 1;
 var done = false;
 var base_not_found = true;
-var sub_base_centroid_sum = Vector2();
+var sub_base_centroid_sum = Vector2(0,0);
 
 func _ready():
 	
 	if(type == TYPE.SUB_BASE):
-		target = Node2D.new();
+		target = CollisionShape2D.new();
+		target.shape = RectangleShape2D.new();
 		target.set_name("SubBaseTarget");
 		get_owner().call_deferred("add_child", target);
 		target.global_position = global_position;
-		
 	if(type == TYPE.END_EFFECTOR):
 		target = get_node(targetPath);
 	if(get_child_count() != 0 && (type == TYPE.SUB_BASE || type == TYPE.ROOT)):
@@ -102,7 +102,10 @@ func _physics_process(delta):
 				arm_idx = 0;
 				"""
 				if(type == TYPE.SUB_BASE):
-					target.global_position = sub_base_centroid_sum/ends.size();"""
+					if(!sub_base_centroid_sum == Vector2(0,0)):
+						target.global_position = sub_base_centroid_sum/ends.size();
+					sub_base_centroid_sum = Vector2(0,0);
+				"""
 			fabrik(c.target.global_position);
 			arm_idx+=1;
 	pass;
@@ -147,6 +150,7 @@ func fabrik(var targ):
 			lamb.resize(joints[arm_idx].size());
 			for i in n:
 				if(y == 0 && type == TYPE.SUB_BASE):
+					
 					#Find the distance ri between the new joint global_position pi+1 and the joint pi
 					r[y] = joints[arm_idx][y+1].global_position.distance_to(target.global_position);
 					lamb[y] = joints[arm_idx][y].lengths[arm_idx]/r[y];

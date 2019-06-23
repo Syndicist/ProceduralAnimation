@@ -23,6 +23,7 @@ shape = SubResource( 1 )
 [node name="PhysicsLimb2D" type="Skeleton2D" parent="Target3"]
 
 [node name="PhysicsJoint2D" type="Bone2D" parent="Target3/PhysicsLimb2D"]
+editor/display_folded = true
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
 script = ExtResource( 2 )
 color = Color( 1, 0, 0, 1 )
@@ -32,7 +33,6 @@ lengths = [ 100, 100 ]
 [node name="PhysicsJoint2D" type="Bone2D" parent="Target3/PhysicsLimb2D/PhysicsJoint2D" groups=[
 "joints",
 ]]
-editor/display_folded = true
 position = Vector2( 95, 70 )
 rest = Transform2D( 1, 0, 0, 1, 95, 70 )
 script = ExtResource( 2 )
