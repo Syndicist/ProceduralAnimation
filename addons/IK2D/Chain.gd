@@ -21,7 +21,7 @@ var down = .89;
 
 func _ready():
 	target = get_node(targetPath);
-	get_joints();
+	get_joints(self);
 	nJoints = joints.size();
 	origin = joints[0].global_position;
 	if(joints[nJoints-1].type == TYPE.SUBBP):
@@ -29,12 +29,37 @@ func _ready():
 		get_owner().call_deferred("add_child", target);
 		target.global_position = joints[nJoints-1].global_position;
 	pass;
-	
+
+"""
 func get_joints():
 	for n in jointPaths:
 		var j = get_node(n);
 		max_length += j.length;
 		joints.append(j);
+"""
+
+func get_joints(var n):
+	if("type" in n):
+		if(n.type == "SubBP";
+		for c in n.get_children():
+			if("type" in c):
+				if(arm_idx >= lengths.size()):
+					arm_idx = 0;
+				if(n == self):
+					max_lengths.append(lengths[arm_idx]);
+					joints.append([]);
+					joints[arm_idx].append(n);
+				joints[arm_idx].append(c);
+				if(c.type == TYPE.SUB_BASE || c.type == TYPE.END_EFFECTOR):
+					ends.append(c);
+				if(c.type != TYPE.SUB_BASE && c.type != TYPE.END_EFFECTOR):
+					get_joints(n.get_node(c.get_path()));
+				if(n == self):
+					arm_idx += 1;
+		max_lengths[arm_idx] += n.lengths[0];
+		if(get_child_count() == 0):
+			return;
+	return;
 
 func _draw():
 	if(get_child_count() > 0):

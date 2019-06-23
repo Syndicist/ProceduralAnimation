@@ -61,6 +61,8 @@ __meta__ = {
 }
 targetPath = NodePath("../../../../IKMouseTarget2D")
 jointPaths = [ NodePath("."), NodePath("IKJoint2D"), NodePath("IKJoint2D/IKEnd2D") ]
+length = null
+type = null
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D2"]
 position = Vector2( 12.6317, 69.4739 )
@@ -86,6 +88,8 @@ __meta__ = {
 }
 targetPath = NodePath("../../../../IKMouseTarget2D2")
 jointPaths = [ NodePath("."), NodePath("IKEnd2D") ]
+length = null
+type = null
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D"]
 position = Vector2( 52.6317, -48.4212 )
