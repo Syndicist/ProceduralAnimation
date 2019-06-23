@@ -3,7 +3,8 @@ extends Bone2D
 export(NodePath) var targetPath;
 export(Array,NodePath) var jointPaths;
 export(int) var length = 100;
-export(String) var type = "SubB";
+export(int) var type = TYPE.SUBBC;
+enum TYPE {ROOT, JOINT, SUBBP, SUBBC, END}
 var target;
 var tolerance = 0.1;
 var joints = [];
@@ -23,7 +24,7 @@ func _ready():
 	get_joints();
 	nJoints = joints.size();
 	origin = joints[0].global_position;
-	if(joints[nJoints-1].type == "SubBP"):
+	if(joints[nJoints-1].type == TYPE.SUBBP):
 		target = Node2D.new();
 		get_owner().call_deferred("add_child", target);
 		target.global_position = joints[nJoints-1].global_position;

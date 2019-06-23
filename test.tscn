@@ -35,7 +35,6 @@ __meta__ = {
 "_editor_icon": ExtResource( 3 )
 }
 jointPaths = [ NodePath("."), NodePath("IKJoint2D"), NodePath("IKJoint2D/IKSub-BasePos") ]
-type = "Root"
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D"]
 position = Vector2( 69.8138, -17.4534 )

@@ -1,7 +1,8 @@
 extends Bone2D
 
 export(int) var length = 100;
-export(String) var type = "Joint";
+export(int) var type = TYPE.JOINT;
+enum TYPE {ROOT, JOINT, SUBBP, SUBBC, END}
 
 func _draw():
 	if(get_child_count() > 0):
