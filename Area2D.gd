@@ -8,11 +8,8 @@ func _process(delta):
 	elif(Input.is_action_just_released("click")):
 		mouse = false;
 
-
 func _on_Area2D_mouse_entered():
 	mouse = true;
-
-
 
 func _on_Area2D_mouse_exited():
 	if(!Input.is_action_pressed("click")):
