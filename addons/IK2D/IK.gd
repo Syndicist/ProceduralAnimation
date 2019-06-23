@@ -18,15 +18,11 @@ func _process(delta):
 	for i in chains.size():
 		chains[i].backward();
 		centroid += chains[i].joints[0].global_position;
-	print(centroid);
 	centroid = centroid / chains.size();
-	print(root.target.name);
+	
 	root.target.global_position = centroid;
 	root.solve();
 	
 	for i in chains.size():
-	#	chains[i].global_position = root.joints[root.nJoints-1].global_position;
 		chains[i].origin = root.joints[root.nJoints-1].global_position;
-	
-	for i in chains.size():
 		chains[i].forward();

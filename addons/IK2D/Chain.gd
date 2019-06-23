@@ -3,12 +3,14 @@ extends Bone2D
 export(NodePath) var targetPath;
 export(Array,NodePath) var jointPaths;
 export(int) var length = 100;
+export(String) var type = "SubB";
 var target;
 var tolerance = 0.1;
 var joints = [];
 var nJoints = 0;
 var max_length = 0;
 var origin = Vector2();
+var broke = false;
 
 var constrained = false;
 var left = .89;
@@ -21,6 +23,10 @@ func _ready():
 	get_joints();
 	nJoints = joints.size();
 	origin = joints[0].global_position;
+	if(joints[nJoints-1].type == "SubBP"):
+		target = Node2D.new();
+		get_owner().call_deferred("add_child", target);
+		target.global_position = joints[nJoints-1].global_position;
 	pass;
 	
 func get_joints():
@@ -37,16 +43,17 @@ func _process(delta):
 	update();
 
 func solve():
-	var dist =joints[0].global_position.distance_to(target.global_position);
+	var dist = joints[0].global_position.distance_to(target.global_position);
 	
 	if(dist > max_length):
+		broke = false;
 		#target out of reach
 		for i in nJoints-1:
 			var r = target.global_position.distance_to(joints[i].global_position);
 			var l = joints[i].length / r;
 			
 			joints[i+1].global_position = (1 - l) * joints[i].global_position + l * target.global_position;
-	else:
+	elif(!broke):
 		#target in reach
 		var bcount = 0;
 		var dif = joints[nJoints-1].global_position.distance_to(target.global_position);
@@ -55,8 +62,9 @@ func solve():
 			forward();
 			dif = joints[nJoints-1].global_position.distance_to(target.global_position);
 			bcount = bcount + 1;
-			if(bcount > 10):
+			if(bcount > 1):
 				break;
+		
 	pass;
 
 
@@ -68,6 +76,7 @@ func backward():
 		var l = joints[i].length / r;
 		
 		joints[i].global_position = (1 - l) * joints[i+1].global_position + l * joints[i].global_position;
+		i-=1;
 
 func forward():
 	joints[0].global_position = origin;

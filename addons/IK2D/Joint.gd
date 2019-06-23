@@ -1,6 +1,7 @@
 extends Bone2D
 
 export(int) var length = 100;
+export(String) var type = "Joint";
 
 func _draw():
 	if(get_child_count() > 0):
