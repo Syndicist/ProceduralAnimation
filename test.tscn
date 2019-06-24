@@ -35,6 +35,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 3 )
 }
 jointPaths = [ NodePath("."), NodePath("IKJoint2D"), NodePath("IKJoint2D/IKSub-BasePos") ]
+lengths = [ 100 ]
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D"]
 position = Vector2( 69.8138, -17.4534 )
@@ -43,6 +44,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_editor_icon": SubResource( 1 )
 }
+type = 1
 
 [node name="IKSub-BasePos" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D"]
 position = Vector2( 47.3686, 42.1054 )
@@ -51,6 +53,7 @@ script = ExtResource( 5 )
 __meta__ = {
 "_editor_icon": ExtResource( 6 )
 }
+type = 2
 
 [node name="IKSub-BaseChain2D2" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos"]
 position = Vector2( 0, 0.540344 )
@@ -61,8 +64,8 @@ __meta__ = {
 }
 targetPath = NodePath("../../../../IKMouseTarget2D")
 jointPaths = [ NodePath("."), NodePath("IKJoint2D"), NodePath("IKJoint2D/IKEnd2D") ]
-length = null
-type = null
+lengths = [ 100 ]
+type = 3
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D2"]
 position = Vector2( 12.6317, 69.4739 )
@@ -71,6 +74,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D2/IKJoint2D"]
 position = Vector2( -63.1581, 33.6843 )
@@ -79,6 +83,7 @@ script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 4
 
 [node name="IKSub-BaseChain2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -88,8 +93,8 @@ __meta__ = {
 }
 targetPath = NodePath("../../../../IKMouseTarget2D2")
 jointPaths = [ NodePath("."), NodePath("IKEnd2D") ]
-length = null
-type = null
+lengths = [ 100 ]
+type = 3
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D"]
 position = Vector2( 52.6317, -48.4212 )
@@ -98,6 +103,7 @@ script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 4
 
 [node name="IKMouseTarget2D" type="Area2D" parent="IK2D"]
 position = Vector2( 169.814, -23.7692 )

@@ -1,6 +1,6 @@
 extends Bone2D
 
-export(int) var length = 100;
+export(Array,int) var lengths = [100];
 export(int) var type = TYPE.JOINT;
 enum TYPE {ROOT, JOINT, SUBBP, SUBBC, END}
 

@@ -10,7 +10,7 @@ func _ready():
 		var n = get_node(c);
 		chains.append(n);
 	root = get_node(rootPath);
-
+"""
 func _process(delta):
 	root.origin = root.global_position;
 	root.joints[0].global_position = root.origin;
@@ -26,3 +26,4 @@ func _process(delta):
 	for i in chains.size():
 		chains[i].origin = root.joints[root.nJoints-1].global_position;
 		chains[i].forward();
+"""
