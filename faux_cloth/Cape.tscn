@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://faux_cloth/small.png" type="Texture" id=1]
+[ext_resource path="res://faux_cloth/Cape.gd" type="Script" id=2]
+[ext_resource path="res://addons/IK2D/IKMouseTarget2D.tscn" type="PackedScene" id=3]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Cape" type="Line2D" parent="."]
+points = PoolVector2Array( 573.81, 236.3 )
+width = 20.0
+default_color = Color( 1, 0.4, 0.4, 1 )
+texture = ExtResource( 1 )
+texture_mode = 2
+round_precision = 1
+script = ExtResource( 2 )
+targetPath = NodePath("../IKMouseTarget2D")
+
+[node name="WindxTimer" type="Timer" parent="Cape"]
+wait_time = 0.1
+autostart = true
+
+[node name="WindxaTimer" type="Timer" parent="Cape"]
+wait_time = 0.1
+autostart = true
+
+[node name="WindxbTimer" type="Timer" parent="Cape"]
+wait_time = 0.1
+autostart = true
+
+[node name="WindyaTimer" type="Timer" parent="Cape"]
+wait_time = 0.1
+autostart = true
+
+[node name="WindybTimer" type="Timer" parent="Cape"]
+wait_time = 0.1
+autostart = true
+
+[node name="IKMouseTarget2D" parent="." instance=ExtResource( 3 )]
+position = Vector2( 277.814, 214.231 )
+[connection signal="timeout" from="Cape/WindxTimer" to="Cape" method="_on_WindxTimer_timeout"]
+[connection signal="timeout" from="Cape/WindxaTimer" to="Cape" method="_on_WindxaTimer_timeout"]
+[connection signal="timeout" from="Cape/WindxbTimer" to="Cape" method="_on_WindxbTimer_timeout"]
+[connection signal="timeout" from="Cape/WindyaTimer" to="Cape" method="_on_WindyaTimer_timeout"]
+[connection signal="timeout" from="Cape/WindybTimer" to="Cape" method="_on_WindybTimer_timeout"]

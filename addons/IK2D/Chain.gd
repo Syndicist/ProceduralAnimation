@@ -20,13 +20,14 @@ var up = .89;
 var down = .89;
 
 func _ready():
-	get_joints(self);
-	nJoints = joints.size();
-	origin = joints[0].global_position;
-	if(joints[nJoints-1].type == 0):
-		target = Node2D.new();
-		get_owner().call_deferred("add_child", target);
-		target.global_position = joints[nJoints-1].global_position;
+	if not Engine.editor_hint:
+		get_joints(self);
+		nJoints = joints.size();
+		origin = joints[0].global_position;
+		if(joints[nJoints-1].type == 0):
+			target = Node2D.new();
+			get_owner().call_deferred("add_child", target);
+			target.global_position = joints[nJoints-1].global_position;
 
 func get_joints(node):
 	if(node is classType):
@@ -47,7 +48,8 @@ func _draw():
 		draw_line(Vector2(0,0), get_child(0).position, Color(1,0,0));
 
 func _process(delta):
-	update();
+	if not Engine.editor_hint:
+		update();
 
 func solve():
 	var dist = joints[0].global_position.distance_to(target.global_position);
