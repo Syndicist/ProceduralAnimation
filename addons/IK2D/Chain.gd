@@ -21,6 +21,7 @@ var down = .89;
 
 func _ready():
 	if not Engine.editor_hint:
+		joints.clear();
 		get_joints(self);
 		nJoints = joints.size();
 		origin = joints[0].global_position;
@@ -28,6 +29,16 @@ func _ready():
 			target = Node2D.new();
 			get_owner().call_deferred("add_child", target);
 			target.global_position = joints[nJoints-1].global_position;
+	if Engine.editor_hint:
+		check_joints(self);
+
+func check_joints(node):
+	if(node is classType):
+		max_length += node.length;
+		joints.append(node);
+		if(node.type != Enums.JointType.SUBBASE && node.type != Enums.JointType.END):
+			for child in node.get_children():
+				check_joints(child);
 
 func get_joints(node):
 	if(node is classType):
@@ -44,8 +55,9 @@ func get_joints(node):
 
 
 func _draw():
-	if(get_child_count() > 0):
-		draw_line(Vector2(0,0), get_child(0).position, Color(1,0,0));
+	if not Engine.editor_hint:
+		if(get_child_count() > 0):
+			draw_line(Vector2(0,0), get_child(0).position, Color(1,0,0));
 
 func _process(delta):
 	if not Engine.editor_hint:
@@ -99,9 +111,13 @@ func forward():
 func _get_configuration_warning():
 	if(get_parent().type != Enums.JointType.SUBBASE):
 		return 'Parent is not SubBase'
-	if(!find_node("IKSub-BasePos") && !find_node("IKEnd2D")):
+	if(!find_end(self)):
 		return "Can't find End or SubBase in Children"
 	return ''
 
-func find_end():
+func find_end(node):
+	if(node.type == Enums.JointType.END || node.type == Enums.JointType.SUBBASE):
+		return true;
+	for child in node.get_children():
+		return find_end(child);
 	return false;
