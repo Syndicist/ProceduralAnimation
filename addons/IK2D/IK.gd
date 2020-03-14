@@ -9,6 +9,8 @@ func _ready():
 	root = get_node(rootPath);
 	get_sub_bases(root);
 
+
+#Need to do this for every subbase rather than just the one after the root.
 func _process(delta):
 	root.origin = root.global_position;
 	root.joints[0].global_position = root.origin;
@@ -27,7 +29,7 @@ func _process(delta):
 
 func get_sub_bases(node):
 	if(node is classType):
-		if(node.type == Enums.JointType.SUBBASE):
+		if(node.type == Enums.JointType.SUBBASECHAIN):
 			chains.append(node);
 		if(node.get_child_count()>0):
 			for child in node.get_children():
