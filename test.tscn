@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/IK2D/IK.gd" type="Script" id=1]
 [ext_resource path="res://addons/IK2D/Root.gd" type="Script" id=2]
@@ -9,13 +9,10 @@
 [ext_resource path="res://addons/IK2D/Chain.gd" type="Script" id=7]
 [ext_resource path="res://addons/IK2D/bone_icon.png" type="Texture" id=8]
 [ext_resource path="res://addons/IK2D/End.gd" type="Script" id=9]
-[ext_resource path="res://addons/IK2D/MouseTarget.gd" type="Script" id=10]
 
 [sub_resource type="StreamTexture" id=1]
 flags = 4
 load_path = "res://.import/bone_icon.png-de8e274d234bc59fc4fa5e11e52f3fac.stex"
-
-[sub_resource type="RectangleShape2D" id=2]
 
 [node name="Node2D" type="Node2D"]
 
@@ -25,7 +22,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_icon": SubResource( 1 )
 }
-chainPaths = [ NodePath("IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D2"), NodePath("IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D") ]
 rootPath = NodePath("IKRoot2D")
 
 [node name="IKRoot2D" type="Bone2D" parent="IK2D"]
@@ -34,8 +30,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_editor_icon": ExtResource( 3 )
 }
-jointPaths = [ NodePath("."), NodePath("IKJoint2D"), NodePath("IKJoint2D/IKSub-BasePos") ]
-type = "Root"
+type = 3
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D"]
 position = Vector2( 69.8138, -17.4534 )
@@ -44,74 +39,55 @@ script = ExtResource( 4 )
 __meta__ = {
 "_editor_icon": SubResource( 1 )
 }
+type = 1
 
-[node name="IKSub-BasePos" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D"]
+[node name="IKSub-Base" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D"]
 position = Vector2( 47.3686, 42.1054 )
 rest = Transform2D( 1, 0, 0, 1, 47.3686, 42.1054 )
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_icon": ExtResource( 6 )
 }
+type = 2
 
-[node name="IKSub-BaseChain2D2" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos"]
+[node name="IKSub-BaseChain" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-Base"]
 position = Vector2( 0, 0.540344 )
 rest = Transform2D( 1, 0, 0, 1, 0, 0.540344 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 6 )
 }
-targetPath = NodePath("../../../../IKMouseTarget2D")
-jointPaths = [ NodePath("."), NodePath("IKJoint2D"), NodePath("IKJoint2D/IKEnd2D") ]
 
-[node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D2"]
+[node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-Base/IKSub-BaseChain"]
 position = Vector2( 12.6317, 69.4739 )
 rest = Transform2D( 1, 0, 0, 1, 12.6317, 69.4739 )
 script = ExtResource( 4 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
-[node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D2/IKJoint2D"]
+[node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-Base/IKSub-BaseChain/IKJoint2D"]
 position = Vector2( -63.1581, 33.6843 )
 rest = Transform2D( 1, 0, 0, 1, -63.1581, 33.6843 )
 script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 4
 
-[node name="IKSub-BaseChain2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos"]
+[node name="IKSub-BaseChain2" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 6 )
 }
-targetPath = NodePath("../../../../IKMouseTarget2D2")
-jointPaths = [ NodePath("."), NodePath("IKEnd2D") ]
 
-[node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-BasePos/IKSub-BaseChain2D"]
+[node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKJoint2D/IKSub-Base/IKSub-BaseChain2"]
 position = Vector2( 52.6317, -48.4212 )
 rest = Transform2D( 1, 0, 0, 1, 52.6317, -48.4212 )
 script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
-
-[node name="IKMouseTarget2D" type="Area2D" parent="IK2D"]
-position = Vector2( 169.814, -23.7692 )
-script = ExtResource( 10 )
-__meta__ = {
-"_editor_icon": ExtResource( 8 )
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="IK2D/IKMouseTarget2D"]
-shape = SubResource( 2 )
-
-[node name="IKMouseTarget2D2" type="Area2D" parent="IK2D"]
-position = Vector2( 66.6559, 127.81 )
-script = ExtResource( 10 )
-__meta__ = {
-"_editor_icon": ExtResource( 8 )
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="IK2D/IKMouseTarget2D2"]
-shape = SubResource( 2 )
+type = 4

@@ -1,9 +1,10 @@
-extends Bone2D
+tool
+extends "./IKBone2D.gd"
 
-export(NodePath) var targetPath;
-export(Array,NodePath) var jointPaths;
+var classType = preload("./IKBone2D.gd");
+
 export(int) var length = 100;
-export(String) var type = "SubB";
+export(Enums.JointType) var type;
 var target;
 var tolerance = 0.1;
 var joints = [];
@@ -19,21 +20,27 @@ var up = .89;
 var down = .89;
 
 func _ready():
-	target = get_node(targetPath);
-	get_joints();
+	get_joints(self);
 	nJoints = joints.size();
 	origin = joints[0].global_position;
-	if(joints[nJoints-1].type == "SubBP"):
+	if(joints[nJoints-1].type == 0):
 		target = Node2D.new();
 		get_owner().call_deferred("add_child", target);
 		target.global_position = joints[nJoints-1].global_position;
-	pass;
-	
-func get_joints():
-	for n in jointPaths:
-		var j = get_node(n);
-		max_length += j.length;
-		joints.append(j);
+
+func get_joints(node):
+	if(node is classType):
+		max_length += node.length;
+		joints.append(node);
+		if(node.type != Enums.JointType.SUBBASE && node.type != Enums.JointType.END):
+			if(node.get_child_count()>0):
+				for child in node.get_children():
+					get_joints(child);
+		else:
+			target = preload("res://addons/IK2D/IKMouseTarget2D.tscn").instance();
+			get_tree().get_root().call_deferred("add_child",target);
+			target.global_position = node.global_position;
+
 
 func _draw():
 	if(get_child_count() > 0):
@@ -86,3 +93,13 @@ func forward():
 		
 		joints[i+1].global_position = (1 - l) * joints[i].global_position + l * joints[i+1].global_position;
 
+
+func _get_configuration_warning():
+	if(get_parent().type != Enums.JointType.SUBBASE):
+		return 'Parent is not SubBase'
+	if(!find_node("IKSub-BasePos") && !find_node("IKEnd2D")):
+		return "Can't find End or SubBase in Children"
+	return ''
+
+func find_end():
+	return false;

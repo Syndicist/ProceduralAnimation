@@ -1,4 +1,4 @@
-extends Bone2D
+extends "./IKBone2D.gd"
 
 export(int) var length = 0;
-export(String) var type = "End";
+export(Enums.JointType) var type;

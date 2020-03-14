@@ -1,7 +1,7 @@
-extends Bone2D
+extends "./IKBone2D.gd"
 
 export(int) var length = 100;
-export(String) var type = "Joint";
+export(Enums.JointType) var type;
 
 func _draw():
 	if(get_child_count() > 0):

@@ -1,15 +1,13 @@
 extends Skeleton2D
 
-export(Array,NodePath) var chainPaths;
+var classType = preload("./IKBone2D.gd");
 export(NodePath) var rootPath;
 var chains = [];
 var root;
 
 func _ready():
-	for c in chainPaths:
-		var n = get_node(c);
-		chains.append(n);
 	root = get_node(rootPath);
+	get_sub_bases(root);
 
 func _process(delta):
 	root.origin = root.global_position;
@@ -26,3 +24,11 @@ func _process(delta):
 	for i in chains.size():
 		chains[i].origin = root.joints[root.nJoints-1].global_position;
 		chains[i].forward();
+
+func get_sub_bases(node):
+	if(node is classType):
+		if(node.type == Enums.JointType.SUBBASE):
+			chains.append(node);
+		if(node.get_child_count()>0):
+			for child in node.get_children():
+				get_sub_bases(child);

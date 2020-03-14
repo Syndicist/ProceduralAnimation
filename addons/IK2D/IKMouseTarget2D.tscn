@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/IK2D/MouseTarget.gd" type="Script" id=1]
+[ext_resource path="res://addons/IK2D/bone_icon.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[node name="IKMouseTarget2D" type="Area2D"]
+editor/display_folded = true
+position = Vector2( 169.814, -23.7692 )
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_icon": ExtResource( 2 )
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
