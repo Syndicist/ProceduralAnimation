@@ -18,6 +18,9 @@ var up = .89;
 var down = .89;
 
 func _ready():
+	initialize();
+
+func initialize():
 	joints.clear();
 	if(get_child_count() > 0):
 		if not Engine.editor_hint:
@@ -58,14 +61,14 @@ func get_joints(node):
 func _draw():
 	if not Engine.editor_hint:
 		if(get_child_count() > 0):
-			draw_line(Vector2(0,0), get_child(0).position, Color(1,0,0));
+			draw_line(Vector2(0,0), get_child(0).position, Color(1,0,0), 3.0);
 	if(get_child_count() > 0):
 		var newx = originalPos.x * cos(deg2rad(leftBound)) - originalPos.y * sin(deg2rad(leftBound));
 		var newy = originalPos.y * cos(deg2rad(leftBound)) - originalPos.x * sin(deg2rad(leftBound));
 		draw_line(Vector2(0,0), Vector2(newx,newy), Color(0,0,1));
 		newx = originalPos.x * cos(deg2rad(rightBound)) - originalPos.y * sin(deg2rad(rightBound));
 		newy = originalPos.y * cos(deg2rad(rightBound)) - originalPos.x * sin(deg2rad(rightBound));
-		draw_line(Vector2(0,0), Vector2(newx,newy), Color(0,0,1));
+		draw_line(Vector2(0,0), Vector2(newx,newy), Color(0,0,1), 3.0);
 
 func _process(delta):
 	if not Engine.editor_hint:

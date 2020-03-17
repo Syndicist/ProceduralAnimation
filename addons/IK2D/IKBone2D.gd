@@ -11,7 +11,7 @@ export(float) var rightBound = 45.0;
 var leftLimit = Vector2(0,0);
 var rightLimit = Vector2(0,0);
 
-var originalPos;
+var originalPos = Vector2(0,0);
 
 func _ready():
 	if(get_child_count() > 0):
@@ -23,20 +23,23 @@ func _process(delta):
 var test = true;
 
 func execute(delta):
-	return;"""
-	if(get_parent() is Skeleton2D && type != Enums.JointType.ROOT && test):
-		test = false;
-		print(get_parent().name);
-		var root = load("res://addons/IK2D/Root.gd").new();
-		root.length = length;
-		root.leftBound = leftBound;
-		root.rightBound = rightBound;
-		root.global_position = global_position;
-		get_parent().add_child(root);
-		if(get_child_count()>0):
-			root.add_child(get_child(0));
-		root.type = Enums.JointType.ROOT
-		queue_free();"""
+	if not Engine.editor_hint:
+		if(get_parent() is Skeleton2D && type != Enums.JointType.ROOT && test):
+			test = false;
+			print(get_parent().name);
+			var root = load("res://addons/IK2D/Root.gd").new();
+			root.length = length;
+			root.leftBound = leftBound;
+			root.rightBound = rightBound;
+			root.global_position = global_position;
+			
+			get_parent().add_child(root);"""
+			if(get_child_count()>0):
+				var child = get_child(0);
+				remove_child(child);
+				root.add_child(child);
+			root.initialize();"""
+			queue_free();
 
 """
 func execute(delta):
