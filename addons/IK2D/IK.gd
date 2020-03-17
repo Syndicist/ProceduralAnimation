@@ -10,6 +10,10 @@ var root;
 
 func _ready():
 	if not Engine.editor_hint:
+		chainRoots_SubBases_SubChains.clear();
+		chainRoots.clear();
+		curRoot = -1;
+		curBase = -1;
 		find_root(self);
 		compile_roots(root);
 

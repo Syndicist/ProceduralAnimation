@@ -3,8 +3,6 @@ extends "./IKBone2D.gd"
 
 var classType = preload("./IKBone2D.gd");
 
-export(int) var length = 100;
-export(Enums.JointType) var type;
 var target;
 var tolerance = 0.1;
 var joints = [];
@@ -20,17 +18,20 @@ var up = .89;
 var down = .89;
 
 func _ready():
-	if not Engine.editor_hint:
-		joints.clear();
-		get_joints(self);
-		nJoints = joints.size();
-		origin = joints[0].global_position;
-		if(joints[nJoints-1].type == 0):
-			target = Node2D.new();
-			get_owner().call_deferred("add_child", target);
-			target.global_position = joints[nJoints-1].global_position;
-	if Engine.editor_hint:
-		check_joints(self);
+	joints.clear();
+	if(get_child_count() > 0):
+		if not Engine.editor_hint:
+			get_joints(self);
+			nJoints = joints.size();
+			origin = joints[0].global_position;
+			if(joints[nJoints-1].type == 0):
+				target = Node2D.new();
+				get_owner().call_deferred("add_child", target);
+				target.global_position = joints[nJoints-1].global_position;
+		if Engine.editor_hint:
+			check_joints(self);
+			nJoints = joints.size();
+			origin = joints[0].global_position;
 
 func check_joints(node):
 	if(node is classType):
@@ -58,6 +59,13 @@ func _draw():
 	if not Engine.editor_hint:
 		if(get_child_count() > 0):
 			draw_line(Vector2(0,0), get_child(0).position, Color(1,0,0));
+	if(get_child_count() > 0):
+		var newx = originalPos.x * cos(deg2rad(leftBound)) - originalPos.y * sin(deg2rad(leftBound));
+		var newy = originalPos.y * cos(deg2rad(leftBound)) - originalPos.x * sin(deg2rad(leftBound));
+		draw_line(Vector2(0,0), Vector2(newx,newy), Color(0,0,1));
+		newx = originalPos.x * cos(deg2rad(rightBound)) - originalPos.y * sin(deg2rad(rightBound));
+		newy = originalPos.y * cos(deg2rad(rightBound)) - originalPos.x * sin(deg2rad(rightBound));
+		draw_line(Vector2(0,0), Vector2(newx,newy), Color(0,0,1));
 
 func _process(delta):
 	if not Engine.editor_hint:

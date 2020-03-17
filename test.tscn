@@ -25,13 +25,14 @@ __meta__ = {
 }
 
 [node name="IKRoot2D" type="Bone2D" parent="IK2D"]
+editor/display_folded = true
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
 script = ExtResource( 2 )
 __meta__ = {
 "_editor_icon": ExtResource( 3 )
 }
-length = 0
 type = 3
+length = 0
 
 [node name="IKSub-Base" type="Bone2D" parent="IK2D/IKRoot2D"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -40,6 +41,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 5 )
 }
 type = 2
+length = 0
 
 [node name="IKSub-Chain" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -49,21 +51,23 @@ __meta__ = {
 }
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain"]
-position = Vector2( 23.4646, 47.0342 )
+position = Vector2( 0, 100 )
 rest = Transform2D( 1, 0, 0, 1, 23.4646, 47.0342 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain/IKJoint2D"]
-position = Vector2( -63.1581, 33.6843 )
-rest = Transform2D( 1, 0, 0, 1, -63.1581, 33.6843 )
+position = Vector2( 0, 100 )
+rest = Transform2D( 1, 0, 0, 1, 0, 100 )
 script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
+length = 0
 
 [node name="IKSub-Chain2" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -73,13 +77,14 @@ __meta__ = {
 }
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain2"]
-position = Vector2( 52.6317, -48.4212 )
+position = Vector2( 100, 0 )
 rest = Transform2D( 1, 0, 0, 1, 52.6317, -48.4212 )
 script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
+length = 0
 
 [node name="IKSub-Chain3" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -89,21 +94,23 @@ __meta__ = {
 }
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3"]
-position = Vector2( -68.7182, 29.3939 )
+position = Vector2( -100, 0 )
 rest = Transform2D( 1, 0, 0, 1, -68.7182, 29.3939 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKSub-Base" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D"]
-position = Vector2( -18.2719, 59.9794 )
+position = Vector2( -100, 0 )
 rest = Transform2D( 1, 0, 0, 1, -18.2719, 59.9794 )
 script = ExtResource( 4 )
 __meta__ = {
 "_editor_icon": ExtResource( 5 )
 }
 type = 2
+length = 0
 
 [node name="IKSub-Chain" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base"]
 position = Vector2( 0, 0.540344 )
@@ -114,21 +121,23 @@ __meta__ = {
 }
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base/IKSub-Chain"]
-position = Vector2( 12.6317, 69.4739 )
+position = Vector2( 0, 100 )
 rest = Transform2D( 1, 0, 0, 1, 12.6317, 69.4739 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base/IKSub-Chain/IKJoint2D"]
-position = Vector2( -63.1581, 33.6843 )
+position = Vector2( 100, 0 )
 rest = Transform2D( 1, 0, 0, 1, -63.1581, 33.6843 )
 script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
+length = 0
 
 [node name="IKSub-Chain3" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -138,29 +147,32 @@ __meta__ = {
 }
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base/IKSub-Chain3"]
-position = Vector2( -69.5126, 34.9549 )
+position = Vector2( -100, 0 )
 rest = Transform2D( 1, 0, 0, 1, -69.5126, 34.9549 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base/IKSub-Chain3/IKJoint2D"]
-position = Vector2( -58.7878, 18.2719 )
+position = Vector2( 0, 100 )
 rest = Transform2D( 1, 0, 0, 1, -58.7878, 18.2719 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKJoint2D"]
-position = Vector2( -73.2854, 43.3354 )
+position = Vector2( 0, 100 )
 rest = Transform2D( 1, 0, 0, 1, -73.2854, 43.3354 )
 script = ExtResource( 9 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
+length = 0
 
 [node name="IK2D2" type="Skeleton2D" parent="."]
 editor/display_folded = true
@@ -185,6 +197,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKJoint2D" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D"]
 position = Vector2( -40.2367, 48.7483 )
@@ -193,6 +206,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKSub-Base" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -201,6 +215,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 5 )
 }
 type = 2
+length = 0
 
 [node name="IKSub-Chain" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -216,6 +231,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base/IKSub-Chain/IKJoint2D"]
 position = Vector2( -63.1581, 33.6843 )
@@ -225,6 +241,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
+length = 0
 
 [node name="IKSub-Chain2" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -240,6 +257,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base/IKSub-Chain2/IKJoint2D"]
 position = Vector2( 40.2512, -38.362 )
@@ -249,6 +267,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
+length = 0
 
 [node name="IKSub-Chain3" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -264,6 +283,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKSub-Base2" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base/IKSub-Chain3/IKJoint2D"]
 position = Vector2( -70.1152, -32.8744 )
@@ -273,6 +293,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 5 )
 }
 type = 2
+length = 0
 
 [node name="IKSub-Chain" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base2"]
 position = Vector2( 0, 0.540344 )
@@ -289,6 +310,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base2/IKSub-Chain/IKJoint2D"]
 position = Vector2( -63.1581, 33.6843 )
@@ -298,6 +320,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
+length = 0
 
 [node name="IKSub-Chain3" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base2"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -313,6 +336,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
+type = 1
 
 [node name="IKEnd2D" type="Bone2D" parent="IK2D2/IKRoot2D/IKJoint2D/IKJoint2D/IKSub-Base/IKSub-Chain3/IKJoint2D/IKSub-Base2/IKSub-Chain3/IKJoint2D"]
 position = Vector2( -77.9085, 32.2036 )
@@ -322,13 +346,7 @@ __meta__ = {
 "_editor_icon": ExtResource( 8 )
 }
 type = 4
-
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = 338.916
-margin_top = 111.425
-margin_right = 378.916
-margin_bottom = 151.425
-text = "Root"
+length = 0
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
 margin_left = 848.839
@@ -336,3 +354,22 @@ margin_top = 108.329
 margin_right = 888.839
 margin_bottom = 148.329
 text = "Root"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 337.369
+margin_top = 107.556
+margin_right = 377.369
+margin_bottom = 147.556
+text = "Root"
+
+[node name="IK2D3" type="Skeleton2D" parent="."]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_icon": ExtResource( 8 )
+}
+
+[node name="IKJoint2D" type="Bone2D" parent="IK2D3"]
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_icon": ExtResource( 8 )
+}
