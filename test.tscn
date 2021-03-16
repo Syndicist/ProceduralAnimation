@@ -68,7 +68,6 @@ type = 4
 length = 0
 
 [node name="IKSub-Chain2" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base"]
-editor/display_folded = true
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
 script = ExtResource( 6 )
 __meta__ = {
@@ -86,7 +85,6 @@ type = 4
 length = 0
 
 [node name="IKSub-Chain3" type="Bone2D" parent="IK2D/IKRoot2D/IKSub-Base"]
-editor/display_folded = true
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
 script = ExtResource( 6 )
 __meta__ = {
