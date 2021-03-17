@@ -41,7 +41,7 @@ end_bone_path = NodePath("bone1/end")
 
 [node name="bone1" type="Bone2D" parent="Skeleton2D/root"]
 position = Vector2( 25.0722, 0.537018 )
-rotation = -2651.2
+rotation = -2651.48
 rest = Transform2D( 0.954072, 0.299576, -0.299576, 0.954072, 23.2155, 9.48483 )
 default_length = 17.8325
 script = ExtResource( 2 )
