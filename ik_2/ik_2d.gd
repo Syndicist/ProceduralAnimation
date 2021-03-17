@@ -30,7 +30,7 @@ func initialize():
 
 func get_joints(node):
 	for child in node.get_children():
-		if child is IKBone2D:
+		if child is IKBone2D or child is IKEnd2D:
 			joint_paths.append(node.get_path_to(child))
 			joints.append(child)
 			get_joints(child)
@@ -67,19 +67,22 @@ func find_end(node):
 	return false
 
 func find_end_recurse(node):
-	if node is IKEnd2D:
-		return node
 	for child in node.get_children():
+		print(child.name)
 		if child is IKBone2D:
 			find_end_recurse(child)
+		if child is IKEnd2D:
+			return node
 	return null
 
 func initialize_bone(bone):
 	for child in bone.get_children():
-		if child is IKBone2D:
+		if child is IKBone2D or child is IKEnd2D:
 			bone.child_bone_path = bone.get_path_to(child)
 			bone.child_bone = child
 			bone.length = bone.global_position.distance_to(child.global_position)
+			bone.IK_handler_path = bone.get_path_to(self)
+			bone.ik_handler = self
 			initialize_bone(child)
 		if child is IKEnd2D:
 			root_bone.end_bone = child
@@ -96,7 +99,8 @@ func calculate_ik():
 	var target_dist = root_bone.global_position.distance_to(target.global_position)
 	var reach = 0.0
 	for bone in joints:
-		reach += bone.length
+		if not bone is IKEnd2D:
+			reach += bone.length
 	var rel_dist = root_bone.end_bone.global_position.distance_to(target.global_position)
 	if rel_dist != 0:
 		if target_dist > reach:
