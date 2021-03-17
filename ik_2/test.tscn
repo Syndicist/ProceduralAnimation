@@ -10,56 +10,61 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 503.299, 345.37 )
-script = ExtResource( 5 )
-
-[node name="Position2D2" type="Position2D" parent="."]
-position = Vector2( 435.049, 294.62 )
+position = Vector2( 523.116, 342.384 )
 script = ExtResource( 5 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2( 449.234, 333.624 )
+position = Vector2( 486.055, 334.154 )
 texture = ExtResource( 6 )
 skeleton = NodePath("../Skeleton2D")
-polygon = PoolVector2Array( 6, 4, 25, 4, 35, 4, 52, 4, 52, 17, 35, 17, 25, 17, 6, 17, 30, 11 )
-uv = PoolVector2Array( 6, 4, 25, 4, 35, 4, 52, 4, 52, 17, 35, 17, 25, 17, 6, 17, 30, 11 )
-polygons = [ PoolIntArray( 0, 7, 6, 1 ), PoolIntArray( 1, 8, 6 ), PoolIntArray( 1, 2, 8 ), PoolIntArray( 8, 6, 5 ), PoolIntArray( 5, 2, 8 ), PoolIntArray( 5, 4, 3, 2 ) ]
-bones = [ NodePath("root"), PoolRealArray( 1, 1, 0, 0, 0, 0, 1, 1, 0.5 ), NodePath("root/bone1"), PoolRealArray( 0, 0, 1, 1, 1, 1, 0, 0, 1 ), NodePath("IKRoot2D"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("IKRoot2D/IKBone2D"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("IKRoot2D/IKBone2D/IKBone2D"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("IKRoot2D/IKBone2D/IKBone2D/IKEnd2D"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0 ) ]
-internal_vertex_count = 1
+polygon = PoolVector2Array( 6, 4, 25, 4, 35, 4, 52, 4, 52, 17, 35, 17, 25, 17, 6, 17, 30, 12, 30, 9 )
+uv = PoolVector2Array( 6, 4, 25, 4, 35, 4, 52, 4, 52, 17, 35, 17, 25, 17, 6, 17, 30, 11, 30, 10 )
+polygons = [ PoolIntArray( 0, 7, 6, 1 ), PoolIntArray( 5, 4, 3, 2 ), PoolIntArray( 6, 8, 5 ), PoolIntArray( 8, 9, 1, 6 ), PoolIntArray( 9, 1, 2 ), PoolIntArray( 8, 9, 2, 5 ) ]
+bones = [ NodePath("root"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("root/bone1"), PoolRealArray( 1, 0, 0, 0, 0, 0, 0, 1, 0, 0 ), NodePath("root/bone1/IKBone2D"), PoolRealArray( 0.5, 1, 1, 1, 1, 1, 1, 0.5, 1, 1 ) ]
+internal_vertex_count = 2
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 position = Vector2( 454.51, 344.325 )
 
 [node name="root" type="Bone2D" parent="Skeleton2D"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
-default_length = 25.078
+default_length = 25.079
 script = ExtResource( 3 )
 IK_handler_path = NodePath("../IK2D")
-length = 25.078
+length = 25.079
 child_bone_path = NodePath("bone1")
-end_bone_path = NodePath("bone1/end")
+end_bone_path = NodePath("bone1/IKBone2D/end")
 
 [node name="bone1" type="Bone2D" parent="Skeleton2D/root"]
-position = Vector2( 25.0722, 0.537018 )
-rotation = -2651.48
-rest = Transform2D( 0.954072, 0.299576, -0.299576, 0.954072, 23.2155, 9.48483 )
-default_length = 17.8325
+position = Vector2( 25.0689, -0.710144 )
+rotation = -2654.67
+rest = Transform2D( -0.999709, 0.0241273, -0.0241273, -0.999709, 25.0775, 0.0643311 )
+default_length = 25.2206
 script = ExtResource( 2 )
 IK_handler_path = NodePath("../../IK2D")
-length = 17.8325
+length = 25.2206
+child_bone_path = NodePath("IKBone2D")
+
+[node name="IKBone2D" type="Bone2D" parent="Skeleton2D/root/bone1"]
+position = Vector2( -25.2203, 0.105774 )
+rotation = -15.712
+rest = Transform2D( -0.999644, -0.026694, 0.026694, -0.999644, -25.1892, -0.672577 )
+default_length = 17.9457
+script = ExtResource( 2 )
+IK_handler_path = NodePath("../../../IK2D")
+length = 17.9457
 child_bone_path = NodePath("end")
 
-[node name="end" type="Bone2D" parent="Skeleton2D/root/bone1"]
-position = Vector2( 17.124, -4.97661 )
-rest = Transform2D( 1, 0, 0, 1, 5.57352, -16.9398 )
+[node name="end" type="Node2D" parent="Skeleton2D/root/bone1/IKBone2D"]
+position = Vector2( 17.9457, -3.05176e-05 )
 script = ExtResource( 4 )
 
 [node name="IK2D" type="Node2D" parent="Skeleton2D"]
 process_priority = 1
 script = ExtResource( 1 )
-root_bone_paths = [ NodePath("../root") ]
-joint_paths = [ [ NodePath("../root"), NodePath("../root/bone1"), NodePath("../root/bone1/end") ] ]
-target_paths = [ NodePath("../../Position2D") ]
+root_bone_path = NodePath("root")
+joint_paths = [ NodePath("root"), NodePath("bone1"), NodePath("IKBone2D"), NodePath("end") ]
+target_path = NodePath("../../Position2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 449.72, 342.24 )
