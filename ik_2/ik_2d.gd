@@ -96,37 +96,23 @@ func _process(_delta):
 			calculate_ik()
 
 func calculate_ik():
-	var target_dist = root_bone.global_position.distance_to(target.global_position)
-	var reach = 0.0
-	for bone in joints:
-		if not bone is IKEnd2D:
-			reach += bone.length
 	var rel_dist = root_bone.end_bone.global_position.distance_to(target.global_position)
-	if rel_dist != 0:
-		if target_dist > reach:
-			#target is not reachable
-			for i in joints.size()-1:
-				#moves all joints except the root to their correct positions reaching for the target
-				rel_dist = joints[i].global_position.distance_to(target.global_position)
-				var lambda = joints[i].length / rel_dist
-				joints[i+1].global_position = (1 - lambda) * joints[i].global_position + lambda * target.global_position
-		else:
-			#target is reachable
-			var initial_pos = root_bone.global_position
-			
-			#forward reaching
-			#set end position to target
-			root_bone.end_bone.global_position = target.global_position
-			for i in range(joints.size()-2, 0, -1):
-				rel_dist = joints[i].global_position.distance_to(target.global_position)
-				var lambda = joints[i].length / rel_dist
-				joints[i].global_position = (1 - lambda) * joints[i+1].global_position + lambda * joints[i].global_position
+	#target is reachable
+	var initial_pos = root_bone.global_position
+	
+	#forward reaching
+	#set end position to target
+	root_bone.end_bone.global_position = target.global_position
+	for i in range(joints.size()-2, 0, -1):
+		rel_dist = joints[i].global_position.distance_to(target.global_position)
+		var lambda = joints[i].length / rel_dist
+		joints[i].global_position = (1 - lambda) * joints[i+1].global_position + lambda * joints[i].global_position
 
-			#backward reaching
-			#set root back to origin
-			root_bone.global_position = initial_pos
-			for i in joints.size()-1:
-				rel_dist = joints[i+1].global_position.distance_to(joints[i].global_position)
-				var lambda = joints[i].length / rel_dist
-				joints[i+1].global_position = (1 - lambda) * joints[i].global_position + lambda * joints[i+1].global_position
-				
+	#backward reaching
+	#set root back to origin
+	root_bone.global_position = initial_pos
+	for i in joints.size()-1:
+		rel_dist = joints[i+1].global_position.distance_to(joints[i].global_position)
+		var lambda = joints[i].length / rel_dist
+		joints[i+1].global_position = (1 - lambda) * joints[i].global_position + lambda * joints[i+1].global_position
+		

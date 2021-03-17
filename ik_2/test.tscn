@@ -10,7 +10,7 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 525.591, 343.268 )
+position = Vector2( 523.116, 342.384 )
 script = ExtResource( 5 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
@@ -28,35 +28,35 @@ position = Vector2( 454.51, 344.325 )
 
 [node name="root" type="Bone2D" parent="Skeleton2D"]
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
-default_length = 25.0777
+default_length = 25.079
 script = ExtResource( 3 )
 IK_handler_path = NodePath("../IK2D")
-length = 25.0777
+length = 25.079
 child_bone_path = NodePath("bone1")
 end_bone_path = NodePath("bone1/IKBone2D/end")
 
 [node name="bone1" type="Bone2D" parent="Skeleton2D/root"]
-position = Vector2( 25.075, -0.372986 )
+position = Vector2( 25.0689, -0.710144 )
 rotation = -2654.67
 rest = Transform2D( -0.999709, 0.0241273, -0.0241273, -0.999709, 25.0775, 0.0643311 )
-default_length = 25.2087
+default_length = 25.2206
 script = ExtResource( 2 )
 IK_handler_path = NodePath("../../IK2D")
-length = 25.2087
+length = 25.2206
 child_bone_path = NodePath("IKBone2D")
 
 [node name="IKBone2D" type="Bone2D" parent="Skeleton2D/root/bone1"]
-position = Vector2( -25.2076, -0.233337 )
-rotation = -9.41552
+position = Vector2( -25.2203, 0.105774 )
+rotation = -15.712
 rest = Transform2D( -0.999644, -0.026694, 0.026694, -0.999644, -25.1892, -0.672577 )
-default_length = 17.9459
+default_length = 17.9457
 script = ExtResource( 2 )
 IK_handler_path = NodePath("../../../IK2D")
-length = 17.9459
+length = 17.9457
 child_bone_path = NodePath("end")
 
 [node name="end" type="Node2D" parent="Skeleton2D/root/bone1/IKBone2D"]
-position = Vector2( 17.9459, 0 )
+position = Vector2( 17.9457, -3.05176e-05 )
 script = ExtResource( 4 )
 
 [node name="IK2D" type="Node2D" parent="Skeleton2D"]
