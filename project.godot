@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "IKRoot2D",
 "language": "GDScript",
 "path": "res://ik_2/ik_root_2d.gd"
+}, {
+"base": "Bone2D",
+"class": "IKSubbase2D",
+"language": "GDScript",
+"path": "res://ik_2/ik_subbase_2d.gd"
 } ]
 _global_script_class_icons={
 "IK2D": "",
 "IKBone2D": "",
 "IKEnd2D": "",
-"IKRoot2D": ""
+"IKRoot2D": "",
+"IKSubbase2D": ""
 }
 
 [application]

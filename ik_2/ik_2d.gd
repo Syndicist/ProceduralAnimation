@@ -2,75 +2,77 @@ tool
 extends Node2D
 class_name IK2D
 
-export(bool) var IK_on := true
-export(Array) var root_bone_paths : Array
-export(Array) var joint_paths : Array
-export(Array) var target_paths : Array
-var root_bones : Array
-var joints : Array
-var targets : Array
-
-
+export(bool) var IK_on := false
+export(Array) var IK_path_array : Array
+export(NodePath) var target_container_path : NodePath
+export(int) var max_iterations := 10
+export(bool) var initialized = false
+var ik_array : Array
+var target_container
+var centroid : Centroid
+var first_itr = true
 
 func _ready():
 	if Engine.editor_hint or not Engine.editor_hint:
 		initialize()
+		if initialized:
+			IK_on = true
 
 func initialize():
-		process_priority = 1
-		root_bones = []
-		root_bone_paths = []
-		joints = []
-		joint_paths = []
-		find_roots(get_parent())
-		validate_needed_nodes()
-		var idx := 0
-		for root_bone in root_bones:
-			joint_paths.append([])
-			joints.append([])
-			initialize_bone(root_bone, idx)
-			get_joints(root_bone, idx)
-			idx += 1
+	first_itr = true
+	if target_container_path:
+		target_container = get_node(target_container_path).get_children()
+	centroid = Centroid.new()
+	centroid.global_position = Vector2(0, 0)
+	IK_path_array = []
+	ik_array = []
+	find_roots(get_parent())
+	#validate_needed_nodes()
+	var _idx := 0
+	process_priority = 100 - ik_array[0]["Root"].get_path().get_name_count()
+	for ik_dict in ik_array:
+		var root_bone = ik_dict["Root"]
+		initialize_bone(root_bone, _idx)
+		get_joints(root_bone, _idx)
+		_idx += 1
+	initialized = true
 
-func get_joints(node, idx):
-	joint_paths[idx].append(get_path_to(node))
-	joints[idx].append(node)
+func get_joints(node, _idx):
+	IK_path_array[_idx]["Joint Paths"].append(get_path_to(node))
+	ik_array[_idx]["Joints"].append(node)
+	if node is IKEnd2D or node is IKSubbase2D:
+		return
 	for child in node.get_children():
-		if child is IKBone2D or child is IKEnd2D:
-			get_joints(child, idx)
+		if child is IKBone2D or child is IKEnd2D or child is IKSubbase2D:
+			get_joints(child, _idx)
 
-
+"""
 func validate_needed_nodes():
-	var idx := 0
+	var _idx := 0
 	for child in get_parent().get_children():
 		if child is IKRoot2D:
-			idx += 1
-	if root_bones.size() != idx:
-		root_bones.clear()
-		for root_bone_path in root_bone_paths:
-			root_bones.append(get_node(root_bone_path))
-	if targets.size() != idx:
-		targets.clear()
-		for target_path in target_paths:
-			targets.append(get_node(target_path))
+			_idx += 1
+	if ik_array.size() != _idx:
+		ik_array.clear()
+		for ik_path_dict in IK_path_array:
+			ik_array.append({"Root" : get_node(), "Target" : get_node, "Joints" : []})
+"""
 
 func _get_configuration_warning():
-	if not root_bone_paths:
-		return "Can't find Roots"
-	if target_paths.size() != root_bone_paths.size():
-		return "Not enough assigned Targets"
+	if not IK_path_array:
+		return "IK not properly set! (check IK Path Array)"
 	return ''
 
 func find_roots(node):
-	var idx := 0
+	var _idx := 0
 	for child in node.get_children():
 		if child is IKRoot2D:
-			root_bone_paths.append(get_path_to(child));
-			root_bones.append(child)
+			IK_path_array.append({"Root Path" : get_path_to(child), "Target Path" : NodePath(""), "Joint Paths" : []}) 
+			ik_array.append({"Root" : child, "Target" : "", "Joints" : []})
 			child.ik_handler = self
 			child.IK_handler_path = child.get_path_to(self)
-			child.root_idx = idx
-			idx += 1
+			child.root_idx = _idx
+			_idx += 1
 
 func find_end(node):
 	node.end_bone = find_end_recurse(node)
@@ -80,16 +82,17 @@ func find_end(node):
 
 func find_end_recurse(node):
 	for child in node.get_children():
-		print(child.name)
 		if child is IKBone2D:
 			find_end_recurse(child)
-		if child is IKEnd2D:
+		if child is IKEnd2D or IKSubbase2D:
 			return node
 	return null
 
 func initialize_bone(bone, root_idx):
+	if bone is IKEnd2D or bone is IKSubbase2D:
+		return
 	for child in bone.get_children():
-		if child is IKBone2D or child is IKEnd2D:
+		if child is IKBone2D or child is IKEnd2D or child is IKSubbase2D:
 			bone.child_bone_path = bone.get_path_to(child)
 			bone.child_bone = child
 			bone.length = bone.global_position.distance_to(child.global_position)
@@ -97,44 +100,67 @@ func initialize_bone(bone, root_idx):
 			bone.ik_handler = self
 			bone.root_idx = root_idx
 			initialize_bone(child, root_idx)
+		if child is IKEnd2D or child is IKSubbase2D:
+			ik_array[root_idx]["Root"].end_bone = child
+			ik_array[root_idx]["Root"].end_bone_path = ik_array[root_idx]["Root"].get_path_to(child)
+			ik_array[root_idx]["Root"].ready = true
 		if child is IKEnd2D:
-			root_bones[root_idx].end_bone = child
-			root_bones[root_idx].end_bone_path = root_bones[root_idx].get_path_to(child)
-			root_bones[root_idx].ready = true
-
+			if target_container:
+				var front = target_container.pop_front()
+				IK_path_array[root_idx]["Target Path"] = get_path_to(front)
+				ik_array[root_idx]["Target"] = front
+		if child is IKSubbase2D:
+			for child_child in child.get_children():
+				if "centroid" in child_child :
+					IK_path_array[root_idx]["Target Path"] = child_child.name + "'s Centroid"
+					ik_array[root_idx]["Target"] = child_child.centroid
 
 func _process(_delta):
 	if Engine.editor_hint or not Engine.editor_hint:
-		if targets.size() == root_bones.size() and root_bones and IK_on:
+		if ik_array and IK_on and initialized:
 			calculate_ik()
 
-
 func calculate_ik():
-	var idx := 0
-	var centroid := Vector2(0,0)
-	var initial_positions := []
-	#forward reaching
-	#set end position to target
-	for root_bone in root_bones:
-		#initial_positions.append(root_bone.global_position)
-		root_bone.end_bone.global_position = targets[idx].global_position
-		for i in range(joints[idx].size()-2, 0, -1):
-			var rel_dist = joints[idx][i].global_position.distance_to(targets[idx].global_position)
-			var lambda = joints[idx][i].length / rel_dist
-			joints[idx][i].global_position = (1 - lambda) * joints[idx][i+1].global_position + lambda * joints[idx][i].global_position
-		centroid += root_bone.global_position
-		print(to_local(centroid))
-		idx += 1
-	
-	centroid /= root_bones.size()
-	#backward reaching
-	#set root back to origin
-	idx = 0
-	for root_bone in root_bones:
-		#root_bone.global_position = initial_positions[idx]
-		root_bone.global_position = centroid
-		for i in joints[idx].size()-1:
-			var rel_dist = joints[idx][i+1].global_position.distance_to(joints[idx][i].global_position)
-			var lambda = joints[idx][i].length / rel_dist
-			joints[idx][i+1].global_position = (1 - lambda) * joints[idx][i].global_position + lambda * joints[idx][i+1].global_position
-		idx += 1
+	var itr := 0
+	var prev_centroid_position = centroid.global_position
+	while(itr < max_iterations):
+		centroid.global_position = Vector2(0,0)
+		var _idx := 0
+		#forward reaching
+		#set end position to target
+		for ik_dict in ik_array:
+			ik_dict["iRootPos"] = ik_dict["Root"].global_position
+			ik_dict["Root"].end_bone.global_position = ik_dict["Target"].global_position
+			for i in range(ik_dict["Joints"].size()-2, -1, -1):
+				var rel_dist = ik_dict["Joints"][i].global_position.distance_to(ik_dict["Target"].global_position)
+				var lambda = ik_dict["Joints"][i].length / rel_dist
+				ik_dict["Joints"][i].global_position = (1 - lambda) * ik_dict["Joints"][i+1].global_position + lambda * ik_dict["Joints"][i].global_position
+			centroid.global_position += ik_dict["Root"].global_position
+			_idx += 1
+		
+		centroid.global_position /= ik_array.size()
+		
+		#backward reaching
+		#set root back to origin
+		_idx = 0
+		for ik_dict in ik_array:
+			var end = ik_dict["Joints"][ik_dict["Joints"].size()-1]
+			if get_parent() is Skeleton2D:
+				ik_dict["Root"].global_position = ik_dict["iRootPos"]
+			elif abs(ik_dict["Root"].position.x) > 0.0 or abs(ik_dict["Root"].position.y) > 0.0:
+				ik_dict["Root"].global_position = prev_centroid_position
+			else:
+				ik_dict["Root"].global_position = centroid.global_position
+
+			for i in ik_dict["Joints"].size()-1:
+				var rel_dist = ik_dict["Joints"][i+1].global_position.distance_to(ik_dict["Joints"][i].global_position)
+				var lambda = ik_dict["Joints"][i].length / rel_dist
+				ik_dict["Joints"][i+1].global_position = (1 - lambda) * ik_dict["Joints"][i].global_position + lambda * ik_dict["Joints"][i+1].global_position
+			if ik_dict["Target"] is Centroid:
+				ik_dict["Target"].global_position = end.global_position
+			_idx += 1
+		first_itr = false
+		itr += 1
+
+class Centroid:
+	var global_position : Vector2
