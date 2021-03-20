@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ik_2/ik_bone_2d.gd"
 }, {
-"base": "Node2D",
+"base": "Bone2D",
 "class": "IKEnd2D",
 "language": "GDScript",
 "path": "res://ik_2/ik_end_2d.gd"

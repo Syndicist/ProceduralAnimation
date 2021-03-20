@@ -6,6 +6,8 @@ export(bool) var IK_on := false
 export(Array) var IK_path_array_array : Array
 export(int) var max_iterations := 10
 export(bool) var initialized = false
+export(float) var threshold := 0.1
+var reinitialize = true
 var ik_array_array : Array
 var primary_idx = 0
 
@@ -20,6 +22,7 @@ func initialize():
 	ik_array_array = []
 	ik_array_array.append([])
 	setup_bones(get_parent(), primary_idx)
+	initialize_rotations()
 	setup_centroids()
 	ik_array_array.sort_custom(IKContainerSorter, "sort_ascending")
 
@@ -55,7 +58,6 @@ func initialize_bone(bone, ik_path_dict, ik_dict):
 	ik_path_dict["Joint Positions"].append(bone.global_position)
 	ik_dict["Bones"].append(bone)
 	ik_dict["Joints"].append(IKJoint.new(bone.global_position))
-	ik_dict["Initial Bone Rotations"].append(bone.rotation)
 	if bone is IKEnd2D:
 		return
 	if bone is IKSubbase2D:
@@ -87,6 +89,13 @@ func setup_centroids():
 						target = child.centroid
 				ik_dict["Target"] = target
 
+func initialize_rotations():
+	for ik_array in ik_array_array:
+		for ik_dict in ik_array:
+			for i in ik_dict["Bones"].size()-1:
+				var rotation = ik_dict["Bones"][i].get_angle_to(ik_dict["Bones"][i+1].global_position)
+				ik_dict["Initial Bone Rotations"].append(rotation)
+
 func _get_configuration_warning():
 	if not IK_path_array_array:
 		return "IK not properly set! (check IK Path Array)"
@@ -95,7 +104,15 @@ func _get_configuration_warning():
 func _process(_delta):
 	if Engine.editor_hint or not Engine.editor_hint:
 		if ik_array_array and IK_on and initialized:
+			reinitialize = true
 			calculate_ik()
+		if not IK_on and reinitialize:
+			reinitialize = false
+			for ik_array in ik_array_array:
+				for ik_dict in ik_array:
+					for bone in ik_dict["Bones"]:
+						bone.rotation = 0
+			initialize()
 
 func calculate_ik():
 	for ik_array in ik_array_array:
@@ -104,60 +121,65 @@ func calculate_ik():
 		var prev_centroid_position = centroid.global_position
 		while(itr < max_iterations):
 			centroid.global_position = Vector2(0,0)
-			var _idx := 0
 			#forward reaching
-			#set end position to target
 			for ik_dict in ik_array:
-				var end = ik_dict["Joints"][ik_dict["Joints"].size()-1]
-				
-				ik_dict["iRootPos"] = ik_dict["Joints"][0].global_position
-				
-				end.global_position = ik_dict["Target"].global_position
-				
-				for i in range(ik_dict["Bones"].size()-2, -1, -1):
-					var rel_dist = ik_dict["Joints"][i].global_position.distance_to(ik_dict["Target"].global_position)
-					
-					var lambda = ik_dict["Bones"][i].length / rel_dist
-					
-					ik_dict["Joints"][i].global_position = (1 - lambda) * ik_dict["Joints"][i+1].global_position + lambda * ik_dict["Joints"][i].global_position
-					
-					ik_dict["Joints"][i].global_position.x = stepify(ik_dict["Joints"][i].global_position.x, 0.001)
-					ik_dict["Joints"][i].global_position.y = stepify(ik_dict["Joints"][i].global_position.y, 0.001)
-					
+				solve_forward(ik_dict)
 				centroid.global_position += ik_dict["Joints"][0].global_position
-				_idx += 1
+			
 			centroid.global_position /= ik_array.size()
 			
 			#backward reaching
-			#set root back to origin
-			_idx = 0
 			for ik_dict in ik_array:
-				var end = ik_dict["Joints"][ik_dict["Joints"].size()-1]
-				
-				if get_parent() is Skeleton2D:
-					ik_dict["Joints"][0].global_position = ik_dict["iRootPos"]
-				elif ik_dict["Joints"][0].global_position != prev_centroid_position:
-					ik_dict["Joints"][0].global_position = prev_centroid_position
-				else:
-					ik_dict["Joints"][0].global_position = centroid.global_position
-				
-				for i in ik_dict["Bones"].size()-1:
-					var rel_dist = ik_dict["Joints"][i+1].global_position.distance_to(ik_dict["Joints"][i].global_position)
-					var lambda = ik_dict["Bones"][i].length / rel_dist
-					ik_dict["Joints"][i+1].global_position = (1 - lambda) * ik_dict["Joints"][i].global_position + lambda * ik_dict["Joints"][i+1].global_position
-					
-					ik_dict["Joints"][i].global_position.x = stepify(ik_dict["Joints"][i].global_position.x, 0.001)
-					ik_dict["Joints"][i].global_position.y = stepify(ik_dict["Joints"][i].global_position.y, 0.001)
-					
-					ik_dict["Bones"][i].look_at(ik_dict["Joints"][i+1].global_position)
-					ik_dict["Bones"][i].rotation -= ik_dict["Initial Bone Rotations"][i]
-					ik_dict["Joints"][i].global_position = ik_dict["Bones"][i].global_position
-					
-				if ik_dict["Target"] is Centroid:
-					ik_dict["Target"].global_position = end.global_position
-				
-				_idx += 1
+				solve_backward(ik_dict, centroid, prev_centroid_position)
 			itr += 1
+
+func solve_forward(ik_dict):
+	ik_dict["iRootPos"] = ik_dict["Joints"][0].global_position
+	#if ik_dict["Root"].end_bone.global_position.distance_to(ik_dict["Target"].global_position):
+	#	return
+	var end = ik_dict["Joints"][ik_dict["Joints"].size()-1]
+	
+	end.global_position = ik_dict["Target"].global_position
+	
+	for i in range(ik_dict["Bones"].size()-2, -1, -1):
+		var rel_dist = ik_dict["Joints"][i].global_position.distance_to(ik_dict["Target"].global_position)
+		
+		var lambda = ik_dict["Bones"][i].length / rel_dist
+		
+		ik_dict["Joints"][i].global_position = (1 - lambda) * ik_dict["Joints"][i+1].global_position + lambda * ik_dict["Joints"][i].global_position
+		
+		ik_dict["Joints"][i].global_position.x = stepify(ik_dict["Joints"][i].global_position.x, 0.001)
+		ik_dict["Joints"][i].global_position.y = stepify(ik_dict["Joints"][i].global_position.y, 0.001)
+
+func solve_backward(ik_dict, centroid, prev_centroid_position):
+	var end = ik_dict["Joints"][ik_dict["Joints"].size()-1]
+	
+	if get_parent() is Skeleton2D:
+		ik_dict["Joints"][0].global_position = ik_dict["iRootPos"]
+	elif ik_dict["Joints"][0].global_position != prev_centroid_position:
+		ik_dict["Joints"][0].global_position = prev_centroid_position
+	else:
+		ik_dict["Joints"][0].global_position = centroid.global_position
+	
+	for i in ik_dict["Bones"].size()-1:
+		var rel_dist = ik_dict["Joints"][i+1].global_position.distance_to(ik_dict["Joints"][i].global_position)
+		var lambda = ik_dict["Bones"][i].length / rel_dist
+		ik_dict["Joints"][i+1].global_position = (1 - lambda) * ik_dict["Joints"][i].global_position + lambda * ik_dict["Joints"][i+1].global_position
+		
+		ik_dict["Joints"][i].global_position.x = stepify(ik_dict["Joints"][i].global_position.x, 0.001)
+		ik_dict["Joints"][i].global_position.y = stepify(ik_dict["Joints"][i].global_position.y, 0.001)
+		
+		ik_dict["Bones"][i].look_at(ik_dict["Joints"][i+1].global_position)
+		ik_dict["Bones"][i].rotation -= ik_dict["Initial Bone Rotations"][i]
+		if ik_dict["Bones"][i].constrained:
+			if ik_dict["Bones"][i].rotation > ik_dict["Bones"][i].upper_constraint:
+				ik_dict["Bones"][i].rotation = ik_dict["Bones"][i].upper_constraint
+			if ik_dict["Bones"][i].rotation < ik_dict["Bones"][i].lower_constraint:
+				ik_dict["Bones"][i].rotation = ik_dict["Bones"][i].lower_constraint 
+		ik_dict["Joints"][i].global_position = ik_dict["Bones"][i].global_position
+		
+	if ik_dict["Target"] is Centroid:
+		ik_dict["Target"].global_position = end.global_position
 
 class IKJoint:
 	var global_position : Vector2

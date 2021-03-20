@@ -9,210 +9,114 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="IKRoot2D" type="Bone2D" parent="."]
-visible = false
-position = Vector2( 461.518, 346.995 )
-rotation = -1.09034
-rest = Transform2D( 1, 0, 0, 1, 0, 0 )
-default_length = 31.5011
-script = ExtResource( 3 )
-IK_handler_path = NodePath("../IK2D")
-length = 31.5011
-child_bone_path = NodePath("../IKRoot2D2")
-end_bone_path = NodePath("../IKRoot2D2/IKBone2D/IKBone2D/IKEnd2D")
-target_path = "Centroid"
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D"]
-position = Vector2( 12.7243, 27.6641 )
-rotation = 2.84383
-rest = Transform2D( 1, 0, 0, 1, 23.6235, 19.2138 )
-default_length = 37.0401
-script = ExtResource( 2 )
-IK_handler_path = NodePath("../../IK2D")
-length = 37.0401
-child_bone_path = NodePath("../../../IKBone2D/IKBone2D")
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D/IKBone2D"]
-position = Vector2( -3.38168, 36.8854 )
-rotation = -1.02205e+24
-rest = Transform2D( 1, 0, 0, 1, -24.5685, 27.7183 )
-default_length = 31.5838
-script = ExtResource( 2 )
-IK_handler_path = NodePath("../../../IK2D")
-length = 31.5838
-child_bone_path = NodePath("../../../../IKBone2D/IKBone2D/IKSubbase2D")
-
-[node name="IKSubbase2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D"]
-position = Vector2( -2.88361, 31.4519 )
-rest = Transform2D( 1, 0, 0, 1, 10.0794, 29.9231 )
-script = ExtResource( 7 )
-
-[node name="IKRoot2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D"]
-rotation = -2.9976e+26
-rest = Transform2D( 1, 0, 0, 1, 0, 0 )
-default_length = 37.8663
-script = ExtResource( 3 )
-IK_handler_path = NodePath("../../../../../IK2D")
-length = 37.8663
-child_bone_path = NodePath("../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D")
-end_bone_path = NodePath("../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D")
-target_path = "Centroid"
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D"]
-position = Vector2( 35.0632, 14.2979 )
-rotation = -1.42691e+25
-rest = Transform2D( 1, 0, 0, 1, 34.0865, -16.4814 )
-default_length = 34.2268
-script = ExtResource( 2 )
-IK_handler_path = NodePath("../../../../../../IK2D")
-length = 34.2268
-child_bone_path = NodePath("../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D")
-
-[node name="IKSubbase2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D"]
-position = Vector2( 31.6929, 12.9241 )
-rest = Transform2D( 1, 0, 0, 1, 25.4713, 22.8492 )
-script = ExtResource( 7 )
-
-[node name="IKRoot2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D"]
-rotation = -7.13874e+27
-rest = Transform2D( 1, 0, 0, 1, 6.3678, -26.5949 )
-default_length = 20.1341
-script = ExtResource( 3 )
-IK_handler_path = NodePath("../../../../../../../../IK2D")
-length = 20.1341
-child_bone_path = NodePath("../../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D")
-end_bone_path = NodePath("../../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKEnd2D")
-target_path = NodePath("../../../../../../../../TargetContainer3/Position2D")
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D"]
-position = Vector2( 12.7108, 15.6146 )
-rotation = -2.73274e+29
-rest = Transform2D( 1, 0, 0, 1, 19.8525, -3.37119 )
-default_length = 46.3375
-script = ExtResource( 2 )
-IK_handler_path = NodePath("../../../../../../../../../IK2D")
-length = 46.3375
-child_bone_path = NodePath("../../../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKEnd2D")
-
-[node name="IKEnd2D" type="Node2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D"]
-position = Vector2( 46.3375, 0.0010376 )
-script = ExtResource( 4 )
-
-[node name="IKRoot2D2" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D"]
-rotation = 4.45313e+27
-rest = Transform2D( 1, 0, 0, 1, 0, 0 )
-default_length = 19.1089
-script = ExtResource( 3 )
-root_idx = 1
-IK_handler_path = NodePath("../../../../../../../../IK2D")
-length = 19.1089
-child_bone_path = NodePath("../../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D2/IKBone2D")
-end_bone_path = NodePath("../../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D2/IKBone2D/IKEnd2D")
-target_path = NodePath("../../../../../../../../TargetContainer3/Position2D2")
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D2"]
-position = Vector2( -3.2865, -18.8242 )
-rotation = -2.7179e+29
-rest = Transform2D( 1, 0, 0, 1, 0.374634, 19.1035 )
-default_length = 16.631
-script = ExtResource( 2 )
-root_idx = 1
-IK_handler_path = NodePath("../../../../../../../../../IK2D")
-length = 16.631
-child_bone_path = NodePath("../../../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D2/IKBone2D/IKEnd2D")
-
-[node name="IKEnd2D" type="Node2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKSubbase2D/IKRoot2D2/IKBone2D"]
-position = Vector2( 16.631, 6.10352e-05 )
-script = ExtResource( 4 )
-
-[node name="IKRoot2D3" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D"]
-rotation = -5.42002e+28
-rest = Transform2D( 1, 0, 0, 1, 0, 0 )
-default_length = 34.6453
-script = ExtResource( 3 )
-root_idx = 2
-IK_handler_path = NodePath("../../../../../IK2D")
-length = 34.6453
-child_bone_path = NodePath("../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D")
-end_bone_path = NodePath("../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D/IKBone2D/IKBone2D/IKEnd2D")
-target_path = NodePath("../../../../../TargetContainer2/Position2D2")
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3"]
-position = Vector2( -34.0804, 6.23059 )
-rotation = -5.87735e+28
-rest = Transform2D( 1, 0, 0, 1, -34.1291, 5.95276 )
-default_length = 34.8155
-script = ExtResource( 2 )
-root_idx = 2
-IK_handler_path = NodePath("../../../../../../IK2D")
-length = 34.8155
-child_bone_path = NodePath("../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D/IKBone2D")
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D"]
-position = Vector2( -34.2479, 6.26123 )
-rotation = -8.0035e+28
-rest = Transform2D( 1, 0, 0, 1, -25.3984, -23.811 )
-default_length = 32.8424
-script = ExtResource( 2 )
-root_idx = 2
-IK_handler_path = NodePath("../../../../../../../IK2D")
-length = 32.8424
-child_bone_path = NodePath("../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D/IKBone2D/IKBone2D")
-
-[node name="IKBone2D" type="Bone2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D/IKBone2D"]
-position = Vector2( -32.3069, 5.90631 )
-rotation = 4.41669e+27
-rest = Transform2D( 1, 0, 0, 1, -22.6205, 23.811 )
-default_length = 28.6859
-script = ExtResource( 2 )
-root_idx = 2
-IK_handler_path = NodePath("../../../../../../../../IK2D")
-length = 28.6859
-child_bone_path = NodePath("../../../../../../../../../IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D/IKBone2D/IKBone2D/IKEnd2D")
-
-[node name="IKEnd2D" type="Node2D" parent="IKRoot2D/IKBone2D/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D/IKBone2D/IKBone2D"]
-position = Vector2( 28.6859, -3.05176e-05 )
-script = ExtResource( 4 )
-
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 position = Vector2( 461.518, 346.995 )
 
 [node name="IKRoot2D2" type="Bone2D" parent="Skeleton2D"]
-rotation = 712.798
+rotation = -13.1361
 rest = Transform2D( 1, 0, 0, 1, 0, 0 )
-default_length = 39.687
+default_length = 30.1219
 script = ExtResource( 3 )
-root_idx = 1
 IK_handler_path = NodePath("../IK2D")
-length = 39.687
+length = 30.1219
 child_bone_path = NodePath("IKBone2D")
-end_bone_path = NodePath("IKBone2D/IKBone2D/IKEnd2D")
-target_path = NodePath("../TargetContainer2/Position2D")
+end_bone_path = NodePath("IKBone2D/IKSubbase2D")
+target_path = "Centroid"
 
 [node name="IKBone2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2"]
-position = Vector2( 0.396851, 39.685 )
-rotation = -0.650275
-rest = Transform2D( 1, 0, 0, 1, 0.396851, 39.685 )
-default_length = 31.748
+position = Vector2( -25.518, 16.005 )
+rotation = 1.68009
+rest = Transform2D( 1, 0, 0, 1, -25.518, 16.005 )
+default_length = 26.901
 script = ExtResource( 2 )
-root_idx = 1
 IK_handler_path = NodePath("../../IK2D")
-length = 31.748
-child_bone_path = NodePath("IKBone2D")
+length = 26.901
+child_bone_path = NodePath("IKSubbase2D")
 
-[node name="IKBone2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D"]
-position = Vector2( -25.3984, 19.0488 )
-rotation = -0.159737
-rest = Transform2D( 1, 0, 0, 1, -25.3984, 19.0488 )
-default_length = 36.2811
+[node name="IKSubbase2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D"]
+position = Vector2( 17.9958, 19.9954 )
+rest = Transform2D( 1, 0, 0, 1, 17.9958, 19.9954 )
+script = ExtResource( 7 )
+
+[node name="IKRoot2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D"]
+rotation = -0.834616
+rest = Transform2D( 1, 0, 0, 1, 0, 0 )
+default_length = 27.0093
+script = ExtResource( 3 )
+IK_handler_path = NodePath("../../../../IK2D")
+length = 27.0093
+child_bone_path = NodePath("IKBone2D")
+end_bone_path = NodePath("IKBone2D/IKEnd2D")
+target_path = NodePath("../../../../TargetContainer3/Position2D")
+
+[node name="IKBone2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D"]
+position = Vector2( 0.481995, 27.005 )
+rotation = 2.74694
+rest = Transform2D( 1, 0, 0, 1, 0.481995, 27.005 )
+default_length = 58.0483
 script = ExtResource( 2 )
-root_idx = 1
-IK_handler_path = NodePath("../../../IK2D")
-length = 36.2811
+IK_handler_path = NodePath("../../../../../IK2D")
+length = 58.0483
 child_bone_path = NodePath("IKEnd2D")
 
-[node name="IKEnd2D" type="Node2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKBone2D"]
-position = Vector2( 36.2811, 3.05176e-05 )
+[node name="IKEnd2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D"]
+position = Vector2( 58.0042, 2.26273 )
+rest = Transform2D( 1, 0, 0, 1, 58.0042, 2.26273 )
+default_length = 0.0
+script = ExtResource( 4 )
+
+[node name="IKRoot2D2" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D"]
+rotation = -16.8365
+rest = Transform2D( 1, 0, 0, 1, 0, 0 )
+default_length = 40.7185
+script = ExtResource( 3 )
+IK_handler_path = NodePath("../../../../IK2D")
+length = 40.7185
+child_bone_path = NodePath("IKBone2D")
+end_bone_path = NodePath("IKBone2D/IKEnd2D")
+target_path = NodePath("../../../../TargetContainer3/Position2D2")
+
+[node name="IKBone2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D2"]
+position = Vector2( -37, 17 )
+rotation = 4.4009
+rest = Transform2D( 1, 0, 0, 1, -37, 17 )
+default_length = 42.5501
+script = ExtResource( 2 )
+IK_handler_path = NodePath("../../../../../IK2D")
+length = 42.5501
+child_bone_path = NodePath("IKEnd2D")
+
+[node name="IKEnd2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D2/IKBone2D"]
+position = Vector2( 41.1498, -10.826 )
+rest = Transform2D( 1, 0, 0, 1, 41.1498, -10.826 )
+default_length = 0.0
+script = ExtResource( 4 )
+
+[node name="IKRoot2D3" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D"]
+rotation = 3.71536
+rest = Transform2D( 1, 0, 0, 1, 0, 0 )
+default_length = 33.9706
+script = ExtResource( 3 )
+IK_handler_path = NodePath("../../../../IK2D")
+length = 33.9706
+child_bone_path = NodePath("IKBone2D")
+end_bone_path = NodePath("IKBone2D/IKEnd2D")
+target_path = NodePath("../../../../TargetContainer2/Position2D")
+
+[node name="IKBone2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D3"]
+position = Vector2( 23, -25 )
+rotation = -1.86613
+rest = Transform2D( 1, 0, 0, 1, 23, -25 )
+default_length = 30.0041
+script = ExtResource( 2 )
+IK_handler_path = NodePath("../../../../../IK2D")
+length = 30.0041
+child_bone_path = NodePath("IKEnd2D")
+
+[node name="IKEnd2D" type="Bone2D" parent="Skeleton2D/IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D"]
+position = Vector2( 30.0041, 0 )
+rest = Transform2D( 1, 0, 0, 1, 30.0041, 0 )
+default_length = 0.0
 script = ExtResource( 4 )
 
 [node name="IK2D" type="Node2D" parent="Skeleton2D"]
@@ -220,9 +124,21 @@ process_priority = 77
 script = ExtResource( 1 )
 IK_on = true
 IK_path_array_array = [ [ {
-"Bone Paths": [ NodePath("../IKRoot2D2"), NodePath("../IKRoot2D2/IKBone2D"), NodePath("../IKRoot2D2/IKBone2D/IKBone2D"), NodePath("../IKRoot2D2/IKBone2D/IKBone2D/IKEnd2D") ],
-"Joint Positions": [ Vector2( 461.518, 346.995 ), Vector2( 461.915, 386.68 ), Vector2( 436.516, 405.729 ), Vector2( 472.798, 405.729 ) ],
+"Bone Paths": [ NodePath("../IKRoot2D2"), NodePath("../IKRoot2D2/IKBone2D"), NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D") ],
+"Joint Positions": [ Vector2( 461.518, 346.995 ), Vector2( 436, 363 ), Vector2( 453.996, 382.995 ) ],
 "Root Path": NodePath("../IKRoot2D2")
+} ], [ {
+"Bone Paths": [ NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D"), NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D"), NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D/IKBone2D/IKEnd2D") ],
+"Joint Positions": [ Vector2( 453.996, 382.995 ), Vector2( 454.478, 410 ), Vector2( 512.482, 412.263 ) ],
+"Root Path": NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D")
+}, {
+"Bone Paths": [ NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D2"), NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D2/IKBone2D"), NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D2/IKBone2D/IKEnd2D") ],
+"Joint Positions": [ Vector2( 453.996, 382.995 ), Vector2( 416.996, 399.995 ), Vector2( 458.146, 389.169 ) ],
+"Root Path": NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D2")
+}, {
+"Bone Paths": [ NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D3"), NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D"), NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D3/IKBone2D/IKEnd2D") ],
+"Joint Positions": [ Vector2( 453.996, 382.995 ), Vector2( 476.996, 357.995 ), Vector2( 507, 357.995 ) ],
+"Root Path": NodePath("../IKRoot2D2/IKBone2D/IKSubbase2D/IKRoot2D3")
 } ] ]
 initialized = true
 
@@ -230,22 +146,22 @@ initialized = true
 position = Vector2( -461.518, -346.995 )
 
 [node name="Position2D" type="Position2D" parent="Skeleton2D/TargetContainer3"]
-position = Vector2( 505, 387 )
+position = Vector2( 374, 430 )
 script = ExtResource( 5 )
 
 [node name="Position2D2" type="Position2D" parent="Skeleton2D/TargetContainer3"]
-position = Vector2( 427, 442 )
+position = Vector2( 499, 417 )
 script = ExtResource( 5 )
 
 [node name="TargetContainer2" type="Node2D" parent="Skeleton2D"]
 position = Vector2( -461.518, -346.995 )
 
 [node name="Position2D" type="Position2D" parent="Skeleton2D/TargetContainer2"]
-position = Vector2( 384, 417 )
+position = Vector2( 387, 379 )
 script = ExtResource( 5 )
 
 [node name="Position2D2" type="Position2D" parent="Skeleton2D/TargetContainer2"]
-position = Vector2( 446, 297 )
+position = Vector2( 452, 294 )
 script = ExtResource( 5 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
