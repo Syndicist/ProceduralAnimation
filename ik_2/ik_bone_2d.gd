@@ -6,12 +6,13 @@ export(int) var root_idx : int
 export(NodePath) var IK_handler_path
 export(float) var length := 16.0
 export(NodePath) var child_bone_path
+export(bool) var constrained := false
+export(float, -3.14159, 3.14159) var upper_constraint := 0.0
+export(float, -3.14159, 3.14159) var lower_constraint := 0.0
+var initial_rotation := 0.0
 var child_bone
 var child_prev_position
 var ik_handler
-export(bool) var constrained := false
-export(float) var upper_constraint := 0.0
-export(float) var lower_constraint := 0.0
 
 func _ready():
 	if Engine.editor_hint or not Engine.editor_hint:
@@ -23,15 +24,17 @@ func _draw():
 		var line = Vector2(16,0)
 		var tempx = line.x
 		var tempy = line.y
-		line.x = tempx * cos(upper_constraint - rotation) - tempy * sin(upper_constraint - rotation)
-		line.y = tempx * sin(upper_constraint - rotation) + tempy * cos(upper_constraint - rotation)
+		var theta = upper_constraint - rotation + initial_rotation
+		line.x = tempx * cos(theta) - tempy * sin(theta)
+		line.y = tempx * sin(theta) + tempy * cos(theta)
 		draw_line(Vector2(0,0), line, Color.red)
 		
 		line = Vector2(16,0)
 		tempx = line.x
 		tempy = line.y
-		line.x = tempx * cos(lower_constraint - rotation) - tempy * sin(lower_constraint - rotation)
-		line.y = tempx * sin(lower_constraint - rotation) + tempy * cos(lower_constraint - rotation)
+		theta = lower_constraint - rotation + initial_rotation
+		line.x = tempx * cos(theta) - tempy * sin(theta)
+		line.y = tempx * sin(theta) + tempy * cos(theta)
 		draw_line(Vector2(0,0), line, Color.blue)
 
 func _process(_delta):

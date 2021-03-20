@@ -6,7 +6,7 @@ export(bool) var IK_on := false
 export(Array) var IK_path_array_array : Array
 export(int) var max_iterations := 10
 export(bool) var initialized = false
-export(float) var threshold := 0.1
+export(float, 0, 1, 0.001) var threshold := 0.1
 var reinitialize = true
 var ik_array_array : Array
 var primary_idx = 0
@@ -93,8 +93,9 @@ func initialize_rotations():
 	for ik_array in ik_array_array:
 		for ik_dict in ik_array:
 			for i in ik_dict["Bones"].size()-1:
-				var rotation = ik_dict["Bones"][i].get_angle_to(ik_dict["Bones"][i+1].global_position)
-				ik_dict["Initial Bone Rotations"].append(rotation)
+				var rot = ik_dict["Bones"][i].get_angle_to(ik_dict["Bones"][i+1].global_position)
+				ik_dict["Bones"][i].initial_rotation = rot
+				ik_dict["Initial Bone Rotations"].append(rot)
 
 func _get_configuration_warning():
 	if not IK_path_array_array:
@@ -172,9 +173,9 @@ func solve_backward(ik_dict, centroid, prev_centroid_position):
 		ik_dict["Bones"][i].look_at(ik_dict["Joints"][i+1].global_position)
 		ik_dict["Bones"][i].rotation -= ik_dict["Initial Bone Rotations"][i]
 		if ik_dict["Bones"][i].constrained:
-			if ik_dict["Bones"][i].rotation > ik_dict["Bones"][i].upper_constraint:
+			if ik_dict["Bones"][i].rotation < ik_dict["Bones"][i].upper_constraint:
 				ik_dict["Bones"][i].rotation = ik_dict["Bones"][i].upper_constraint
-			if ik_dict["Bones"][i].rotation < ik_dict["Bones"][i].lower_constraint:
+			if ik_dict["Bones"][i].rotation > ik_dict["Bones"][i].lower_constraint:
 				ik_dict["Bones"][i].rotation = ik_dict["Bones"][i].lower_constraint 
 		ik_dict["Joints"][i].global_position = ik_dict["Bones"][i].global_position
 		
