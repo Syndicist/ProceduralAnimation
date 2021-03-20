@@ -20,6 +20,4 @@ func _process(_delta):
 		if child_bone:
 			length = global_position.distance_to(child_bone.global_position)
 			default_length = global_position.distance_to(child_bone.global_position)
-			child_prev_position = child_bone.position
-		if child_bone is IKEnd2D:
-			look_at(ik_handler.ik_array[root_idx]["Target"].global_position)
+			#child_prev_position = child_bone.position
